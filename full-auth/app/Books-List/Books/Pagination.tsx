@@ -1,0 +1,49 @@
+import { useAppSelector } from '@/redux/hooks';
+import React from 'react';
+
+interface PaginationProps {
+  currentPage: number;
+  setCurrentPage: (newPage: number) => void;
+}
+
+const Pagination: React.FC<PaginationProps> = ({ currentPage, setCurrentPage }) => {
+  const totalPages = useAppSelector((state) => state.products.totalPages);
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <button
+          key={i}
+          className={`mx-1 rounded-[14px] px-3 py-3 text-[#11142D] font-semibold ${
+            i === currentPage ? 'bg-[#6C5DD3] text-white px-5 py-3' : ''
+          }`}
+          onClick={() => setCurrentPage(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    return <div className="flex justify-center items-center">{pages}</div>;
+  };
+
+  return (
+    <div className='mt-20 ml-auto gap-x-5 flex items-center'>
+      <button 
+        onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
+        className='rounded-[14px] bg-[#F0F0F0] px-5 py-2 text-[#11142D] font-semibold text-[18px] font-sans'
+      >
+        Previous
+      </button>
+      {renderPagination()}
+      <button 
+        onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
+        className='rounded-[14px] bg-[#F0F0F0] px-5 py-2 text-[#11142D] font-semibold text-[18px] font-sans'
+      >
+        Next
+      </button>
+    </div>
+  )
+}
+
+export default Pagination;

@@ -1,0 +1,5 @@
+export {default as NewImage1} from './1.png'
+export {default as NewImage2} from './2.png'
+export {default as NewImage3} from './3.png'
+export {default as NewImage4} from './4.png'
+export {default as StoreImage} from './Store.png'

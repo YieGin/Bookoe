@@ -1,0 +1,49 @@
+'use client'
+import React from 'react';
+import Editor from './Editor';
+import Publisher from './Publisher';
+import Year from './Year';
+import Category from './Category';
+import Price from './Price';
+import { fetchAllProducts, fetchProducts } from '@/redux/features/productsSlice';
+import { useAppDispatch } from '@/redux/hooks';
+import { resetFilters } from '@/redux/features/filterSlice';
+
+const Filter: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  const handleRefineSearch = () => {
+    dispatch(fetchAllProducts());
+  };
+
+  const handleResetFilters = () => {
+    dispatch(resetFilters()); // Reset all filters
+    dispatch(fetchAllProducts()); // Optionally fetch products again to show unfiltered data
+  };
+
+  return (
+    <div className='font-Cairo w-full'>
+      <h1 className='text-[#11142D] dark:text-[#F0F0F0] font-bold text-[40px] lg:flex xs:hidden'>Filter Option</h1>
+      <div className='lg:sticky top-0 left-0'>
+        <Editor />
+        <Publisher />
+        <Year />
+        <Category />
+        <Price />
+      <button 
+        onClick={handleRefineSearch}
+        className='w-full rounded-[14px] flex items-center justify-center text-white font-bold text-[18px] bg-[#6C5DD3] hover:bg-[#6251cf] mt-5 py-4'>
+        Refine Search
+      </button>
+      <button 
+        onClick={handleResetFilters}
+        className='w-full rounded-[14px] flex items-center justify-center text-[#AAAAAA] font-bold text-[18px] hover:text-[#6d6d6d] border-[1px] mt-5 py-4'>
+        Reset Filter
+      </button>
+      </div>
+
+    </div>
+  );
+};
+
+export default Filter;
