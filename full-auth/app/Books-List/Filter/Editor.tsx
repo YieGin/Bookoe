@@ -5,9 +5,11 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 import { fetchBestSellers, fetchFiveStarProducts, fetchHistoryCategoryProducts, fetchNewestBooks } from '@/redux/features/productsSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 const Editor = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { bestSellerProducts, newestBooks, fiveStarProducts, historyCategoryProducts } = useAppSelector(state => state.products);
   const [showEditor, setEditor] = useState(true);
   const [showBestSellers, setShowBestSellers] = useState(false);
@@ -20,13 +22,17 @@ const Editor = () => {
   dispatch(fetchNewestBooks());
   dispatch(fetchFiveStarProducts());
   dispatch(fetchHistoryCategoryProducts());
-  }, []);
+  }, [dispatch]);
 
   const toggleBestSellers = () => { setShowBestSellers(prevShow => !prevShow);};
   const toggleNewestBooks = () => { setShowNewestBooks(prevShow => !prevShow);};
   const toggleFeatured = () => { setShowFeatured(prevShow => !prevShow);};
   const toggleWatchHistory = () => { setShowWatchHistory(prevShow => !prevShow);};
   const toggleEditor = () => { setEditor(prevShow => !prevShow);};
+
+  const navigateToProductPage = (productId: number) => {
+    router.push(`/product/${productId}`);
+  };
 
   return (
     <div>
@@ -57,7 +63,7 @@ const Editor = () => {
               >
                 <div className='space-y-2 mt-2'>
                   {bestSellerProducts.map((item) => (
-                    <div className='flex ml-5' key={item.id}>
+                    <div onClick={() => navigateToProductPage(item.id)} className='flex ml-5' key={item.id}>
                       <p className='text-[#11142D] dark:text-[#F0F0F0] font-sans text cursor-pointer text-[16px]'>{item.title}</p>
                     </div>
                   ))}
@@ -85,7 +91,7 @@ const Editor = () => {
               >
                 <div className='space-y-2 mt-2'>
                   {newestBooks.map((item) => (
-                    <div className='flex ml-5' key={item.id}>
+                    <div onClick={() => navigateToProductPage(item.id)} className='flex ml-5' key={item.id}>
                       <p className='text-[#11142D] dark:text-[#F0F0F0] font-sans text cursor-pointer text-[16px]'>{item.title}</p>
                     </div>
                   ))}
@@ -113,7 +119,7 @@ const Editor = () => {
               >
                 <div className='space-y-2 mt-2'>
                   {fiveStarProducts.map((item) => (
-                    <div className='flex ml-5' key={item.id}>
+                    <div onClick={() => navigateToProductPage(item.id)} className='flex ml-5' key={item.id}>
                       <p className='text-[#11142D] dark:text-[#F0F0F0] font-sans text cursor-pointer text-[16px]'>{item.title}</p>
                     </div>
                   ))}
@@ -141,7 +147,7 @@ const Editor = () => {
               >
                 <div className='space-y-2 mt-2'>
                   {historyCategoryProducts.map((item) => (
-                    <div className='flex ml-5' key={item.id}>
+                    <div onClick={() => navigateToProductPage(item.id)} className='flex ml-5' key={item.id}>
                       <p className='text-[#11142D] dark:text-[#F0F0F0] font-sans text cursor-pointer text-[16px]'>{item.title}</p>
                     </div>
                   ))}

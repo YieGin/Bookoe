@@ -5,15 +5,22 @@ import Publisher from './Publisher';
 import Year from './Year';
 import Category from './Category';
 import Price from './Price';
-import { fetchAllProducts, fetchProducts } from '@/redux/features/productsSlice';
+import { fetchAllProducts } from '@/redux/features/productsSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { resetFilters } from '@/redux/features/filterSlice';
 
-const Filter: React.FC = () => {
+interface FilterProps {
+  onCloseFilter?: () => void;
+}
+
+const Filter: React.FC<FilterProps> = ({ onCloseFilter }) => {
   const dispatch = useAppDispatch();
 
   const handleRefineSearch = () => {
     dispatch(fetchAllProducts());
+    if (onCloseFilter) {
+      onCloseFilter();
+    }
   };
 
   const handleResetFilters = () => {

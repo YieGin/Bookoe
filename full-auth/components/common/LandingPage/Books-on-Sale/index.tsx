@@ -128,7 +128,7 @@ const index = () => {
                   </p>
                 )}
                 <img
-                  className="h-[400px] w-full object-cover rounded-lg"
+                  className="h-[400px] w-full object-cover rounded-lg transition-all duration-300 ease-in-out"
                   src={product.image}
                   alt={product.title}
                 />

@@ -81,6 +81,13 @@ class ProductListCreateView(generics.ListCreateAPIView):
         self.permission_classes = [permissions.IsAuthenticated]
         return super().post(request, *args, **kwargs)
 
+# ProductDetailView ID
+class ProductDetailView(generics.RetrieveAPIView):
+    permission_classes = [AllowAny]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
 # BestSellerView
 class BestSellerView(APIView):
     permission_classes = [AllowAny]

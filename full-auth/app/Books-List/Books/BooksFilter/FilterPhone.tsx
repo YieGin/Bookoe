@@ -23,6 +23,10 @@ const FilterPhone = () => {
     };
   }, [isOpenFilter]);
 
+  const handleCloseFilter = () => {
+    setIsOpenFilter(false);
+  };
+
   const handleOpenFilter = () => {
     setIsOpenFilter(!isOpenFilter);
   };
@@ -33,13 +37,13 @@ const FilterPhone = () => {
         <p>Filter</p>
         <MdOutlineFilterList className='text-[25px]' />
       </div>
-      <div className='h-full md:w-max  right-0 absolute top-0'>
+      <div className={`fixed top-0 right-0 h-full xs:w-full bg-white dark:bg-[#232323] md:w-[300px] shadow-lg z-50 transform ${isOpenFilter ? 'translate-x-0' : 'translate-x-full'} ease-in-out duration-300`}>
         {isOpenFilter ? (
-          <div className='bg-white z-40 w-full xs:w-full px-5 h-screen overflow-y-scroll scrollbar-hide pt-10'>
+          <div className='bg-white z-40 xs:w-full px-5 h-screen overflow-y-scroll scrollbar-hide pt-10'>
             <div onClick={handleOpenFilter}>
               <IoClose className='top-3 right-3 fixed text-[30px] z-10 text-[#222]' />
             </div>
-            <Filter />
+            <Filter onCloseFilter={handleCloseFilter} />
           </div>
         ) : ''}
       </div>

@@ -2,6 +2,39 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchRecommendedProducts, Product } from '@/redux/features/productsSlice';
+import { useInView } from 'react-intersection-observer';
+import { motion, useAnimation, Variants } from 'framer-motion';
+
+
+const ProductItem: React.FC<{ product: Product; index: number }> = ({ product, index }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.2 });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    } else {
+      controls.start("hidden");
+    }
+  }, [controls, inView]);
+
+  const variants: Variants = {
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: index * 0.2 } },
+    hidden: { opacity: 0, scale: 0.8 }
+  };
+
+  return (
+    <motion.div 
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={variants}
+      className="md:min-w-[140px] xs:h-[150px] md:h-[250px] border-[4px] cursor-pointer border-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out"
+    >
+      <img src={`${process.env.NEXT_PUBLIC_HOST}${product.image}`} alt={product.title} className="w-full h-full object-cover hover:scale-105 lg:brightness-100 hover:brightness-105 transition-all duration-300 ease-in-out" />
+    </motion.div>
+  );
+};
 
 const RecommendationsContent = () => {
   const dispatch = useAppDispatch();
@@ -39,14 +72,13 @@ const RecommendationsContent = () => {
     }
     setVisibleProducts(recommendedProducts.slice(0, numberToShow));
   }, [screenWidth, recommendedProducts]);
+  
 
   return (
     <div className="flex gap-x-5">
       <div className="relative flex gap-x-5 items-center justify-center w-full mt-5">
-        {visibleProducts.map((product) => (
-          <div key={product.id} className="md:min-w-[140px] h-[200px] border-[4px] cursor-pointer border-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out">
-            <img src={`${process.env.NEXT_PUBLIC_HOST}${product.image}`} alt={product.title} className="w-full h-full object-cover hover:scale-105 lg:brightness-90 hover:brightness-100 transition-all duration-300 ease-in-out" />
-          </div>
+        {visibleProducts.map((product, index) => (
+          <ProductItem key={product.id} product={product} index={index} />
         ))}
       </div>
     </div>

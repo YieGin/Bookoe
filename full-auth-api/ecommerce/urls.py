@@ -1,9 +1,10 @@
 # ecommerce/urls.py
 from django.urls import path
-from .views import ProductListCreateView, BestSellerView, SpecialOffersView, RecommendedProductsView, NewestBooksView, FiveStarProductsView, HistoryCategoryProductsView, add_to_favorites, favorite_count, add_to_cart, cart_count, list_favorites
+from .views import ProductListCreateView, BestSellerView, ProductDetailView, SpecialOffersView, RecommendedProductsView, NewestBooksView, FiveStarProductsView, HistoryCategoryProductsView, add_to_favorites, favorite_count, add_to_cart, cart_count, list_favorites
 
 urlpatterns = [
     path('products/', ProductListCreateView.as_view(), name='product-list'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
     path('best-sellers/', BestSellerView.as_view(), name='best-sellers'),
     path('special-offers/', SpecialOffersView.as_view(), name='special-offers'),
     path('recommended-products/', RecommendedProductsView.as_view(), name='recommended-products'),

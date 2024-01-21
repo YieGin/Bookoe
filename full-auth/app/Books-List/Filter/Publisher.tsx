@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchAllProducts } from '@/redux/features/productsSlice';
@@ -11,15 +11,8 @@ const Publisher = () => {
     const allProducts = useAppSelector((state) => state.products.allProducts);
     const globalSelectedPublishers = useAppSelector(selectSelectedPublishers);
 
-    // Function to get initial state from session storage
-    const getInitialShowPublisher = () => {
-        if (typeof window !== 'undefined') {
-            return sessionStorage.getItem('showPublisher') === 'true';
-        }
-        return false;
-    };
-
-    const [showPublisher, setShowPublisher] = useState(getInitialShowPublisher());
+    // Initialize state with a default value
+    const [showPublisher, setShowPublisher] = useState(false);
     const [uniquePublishers, setUniquePublishers] = useState<Set<string>>(new Set());
 
     useEffect(() => {
@@ -35,6 +28,14 @@ const Publisher = () => {
         });
         setUniquePublishers(publisherSet);
     }, [allProducts]);
+
+    // Update state based on sessionStorage when component mounts
+    useEffect(() => {
+        const storedShowPublisher = sessionStorage.getItem('showPublisher');
+        if (storedShowPublisher) {
+            setShowPublisher(storedShowPublisher === 'true');
+        }
+    }, []);
 
     const togglePublisher = () => {
         setShowPublisher(prevShow => {

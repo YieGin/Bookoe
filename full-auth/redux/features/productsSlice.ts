@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { RootState } from '../store';
-
 
 const PRODUCTS_PER_PAGE = 16;
 export interface Product {
@@ -34,6 +32,7 @@ interface ProductsState {
   newestBooks: Product[];
   fiveStarProducts: Product[];
   historyCategoryProducts: Product[];
+  currentProduct: Product | null;
   isLoading: boolean;
   error: string | null;
   currentPage: number;
@@ -53,6 +52,7 @@ const initialState: ProductsState = {
   error: null,
   currentPage: 1,
   totalPages: 0,
+  currentProduct: null,
 };
 
 // Thunk for fetching all products
@@ -93,6 +93,19 @@ export const fetchAllProducts = createAsyncThunk(
       }
     } catch (error) {
       return rejectWithValue('Error fetching products');
+    }
+  }
+);
+
+// Thunk for fetching a single product by its ID
+export const fetchProductById = createAsyncThunk(
+  'products/fetchProductById',
+  async (productId: number, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/products/${productId}/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Error fetching product by ID');
     }
   }
 );
@@ -200,6 +213,16 @@ const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      /* fetchProductById */
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.currentProduct = action.payload;
+      })
+      .addCase(fetchProductById.rejected, (state, action) => {
+        // Handle rejection case
+        state.error = action.payload as string;
+      })
+
+      /* fetchProducts */
       .addCase(fetchProducts.pending, (state) => {
         state.isLoading = true;
       })
@@ -225,7 +248,6 @@ const productsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       })
-
 
       /* fetchBestSellers */
       .addCase(fetchBestSellers.pending, (state) => {

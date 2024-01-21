@@ -30,7 +30,7 @@ export const addFavorite = createAsyncThunk(
       return response.data;
     } catch (err) {
         if (axios.isAxiosError(err) && err.response && err.response.status === 401) {
-          toast.error('You must be logged in to add favorites.');
+          toast.error("You must be logged in to add favorites. Log in quickly with just a few clicks!");
         } else {
           toast.error('Error adding product to favorites.');
         }
@@ -38,6 +38,7 @@ export const addFavorite = createAsyncThunk(
       }
   }
 );
+
 
 export const fetchFavorites = createAsyncThunk(
   'favorites/fetchFavorites',

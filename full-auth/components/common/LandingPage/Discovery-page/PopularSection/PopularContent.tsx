@@ -1,12 +1,44 @@
 'use client'
+import { motion, useAnimation, Variants } from 'framer-motion';
 import { Product, fetchBestSellers } from '@/redux/features/productsSlice';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useInView } from 'react-intersection-observer';
+
+const ProductItem: React.FC<{ product: Product; index: number }> = ({ product, index }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.2 });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    } else {
+      controls.start("hidden");
+    }
+  }, [controls, inView]);
+
+  const variants: Variants = {
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: index * 0.2 } },
+    hidden: { opacity: 0, scale: 0.8 }
+  };
+
+  return (
+    <motion.div 
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={variants}
+      className="md:min-w-[140px] xs:h-[150px] md:h-[250px] border-[4px] cursor-pointer border-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out"
+    >
+      <img src={`${process.env.NEXT_PUBLIC_HOST}${product.image}`} alt={product.title} className="w-full h-full object-cover hover:scale-105 lg:brightness-100 hover:brightness-105 transition-all duration-300 ease-in-out" />
+    </motion.div>
+  );
+};
 
 const PopularContent = () => {
   const dispatch = useAppDispatch();
   const bestSellers = useAppSelector((state) => state.products.bestSellerProducts);
-  const [screenWidth, setScreenWidth] = useState(0);
+  const [screenWidth, setScreenWidth] = useState<number>(0);
   const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -14,39 +46,33 @@ const PopularContent = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    // Set the initial screenWidth on client-side only
     const updateScreenWidth = () => {
       setScreenWidth(window.innerWidth);
     };
 
-    updateScreenWidth(); // Set initial value
+    updateScreenWidth();
     window.addEventListener('resize', updateScreenWidth);
 
-    // Clean up the event listener when the component unmounts
     return () => window.removeEventListener('resize', updateScreenWidth);
   }, []);
 
   useEffect(() => {
-    // Determine the number of products to show based on screenWidth
-    let numberToShow;
+    let numberToShow: number;
     if (screenWidth <= 390) {
-      numberToShow = 2; // Show 2 products if screen width is 390px or less
+      numberToShow = 2;
     } else if (screenWidth <= 550) {
-      numberToShow = 3; // Show 3 products if screen width is between 391px and 750px
+      numberToShow = 3;
     } else {
-      numberToShow = 4; // Show 4 products if screen width is more than 750px
+      numberToShow = 4;
     }
     setVisibleProducts(bestSellers.slice(0, numberToShow));
   }, [screenWidth, bestSellers]);
 
-
   return (
     <div className="flex gap-x-5">
       <div className="relative flex gap-x-5 items-center justify-center w-full mt-5">
-        {visibleProducts.map((product) => (
-          <div key={product.id} className="md:min-w-[140px] h-[200px] border-[4px] cursor-pointer border-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out">
-            <img src={`${process.env.NEXT_PUBLIC_HOST}${product.image}`} alt={product.title} className="w-full h-full object-cover hover:scale-105 lg:brightness-75 hover:brightness-100 transition-all duration-300 ease-in-out" />
-          </div>
+        {visibleProducts.map((product, index) => (
+          <ProductItem key={product.id} product={product} index={index} />
         ))}
       </div>
     </div>
