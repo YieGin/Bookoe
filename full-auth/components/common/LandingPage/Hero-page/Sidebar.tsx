@@ -24,22 +24,15 @@ const Sidebar = () => {
   };
 
   const navigateToProductPage = async (productId: number) => {
-    console.log("Navigating to product:", productId);
     try {
       await dispatch(fetchProductById(productId)).unwrap();
       router.push(`/product/${productId}`);
     } catch (error) {
       console.error('Error fetching product by ID:', error);
-      // Handle the error (e.g., show a notification or error message)
     }
   };
   
-  
-
   const currentBestSeller = bestSellers[currentBestSellerIndex] || {};
-
-  // Additional console.log to debug current best seller
-  console.log('Current Best Seller:', currentBestSeller);
 
   return (
     <div className='bg-[#9C9C9C] dark:bg-[#232323] rounded-3xl h-[662px] md:flex xs:hidden items-center flex-col py-10 px-3'>

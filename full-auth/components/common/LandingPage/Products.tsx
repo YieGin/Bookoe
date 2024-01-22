@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { fetchProducts } from '@/redux/features/productsSlice';
+import { fetchAllProducts } from '@/redux/features/productsSlice';
 import { addFavorite } from '@/redux/features/favoritesSlice';
 import { ToastContainer } from 'react-toastify';
 import { Spinner } from '@/components/common';
@@ -11,11 +11,11 @@ import { fetchCartCount } from '@/redux/features/cartCountSlice';
 
 const Products = () => {
   const dispatch = useAppDispatch();
-  const { allProducts, isLoading, error } = useAppSelector((state) => state.products);
+  const { allOfProducts, isLoading, error } = useAppSelector((state) => state.products);
   const [isAdding, setIsAdding] = useState(false); // Track if an add to favorites action is in progress
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchAllProducts());
   }, [dispatch]);
 
   const handleAddFavorite = async (productId: number) => {
@@ -52,7 +52,7 @@ const Products = () => {
   return (
     <div>
       <ToastContainer />
-      {allProducts.map((item) => (
+      {allOfProducts.map((item) => (
         <div key={item.id}>
           <p>{item.id}</p>
           <img className='w-[400px] h-[300px]' src={item.image} alt=""/>

@@ -12,8 +12,8 @@ export default function ProductPage() {
   const searchParams = useSearchParams();
   const productId = pathname.split('/').pop() || searchParams.get('id');
 
-  const products = useAppSelector((state: RootState) => state.products.allProducts);
-  const product = products.find((product) => product.id.toString() === productId);
+  const products = useAppSelector((state: RootState) => state.products.allOfProducts);
+  const product = products.find((product: any) => product.id.toString() === productId);
 
   useEffect(() => {
     if (!product && productId && products.length === 0) {
@@ -21,9 +21,6 @@ export default function ProductPage() {
     }
   }, [productId, product, products, dispatch]);
 
-  useEffect(() => {
-    console.log('Product ID (inside useEffect):', productId);
-  }, [productId]);
 
   if (!productId || !product) {
     return <Spinner />;

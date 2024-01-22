@@ -9,7 +9,7 @@ import DotPatternBottom from './DotPatternBottom';
 
 const FeaturedBooks = () => {
   const dispatch = useAppDispatch();
-  const { allProducts } = useAppSelector((state) => state.products);
+  const { allOfProducts } = useAppSelector((state) => state.products);
   const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
@@ -18,9 +18,9 @@ const FeaturedBooks = () => {
   
   useEffect(() => {
     // Find the product with ID 1
-    const productWithIdOne = allProducts.find(product => product.id === 1);
+    const productWithIdOne = allOfProducts.find(product => product.id === 1);
     setFeaturedProduct(productWithIdOne || null);
-  }, [allProducts]);
+  }, [allOfProducts]);
   return (
     <div className='font-Cairo flex lg:justify-start md:justify-center lg:flex-row gap-x-5 pt-10 '>
       <div className='w-full h-full pb-14 sm:px-10 xs:px-3 bg-[#f2f0fe] dark:bg-[#232323] relative overflow-hidden'>

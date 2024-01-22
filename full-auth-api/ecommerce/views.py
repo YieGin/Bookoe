@@ -1,6 +1,7 @@
 # ecommerce/views.py
 from django.db.models import Count, Case, When, IntegerField
 from rest_framework import generics, permissions
+from rest_framework.generics import ListAPIView
 from .models import Product, Favorite, Cart
 from .serializers import ProductSerializer
 from django.shortcuts import get_object_or_404
@@ -81,6 +82,13 @@ class ProductListCreateView(generics.ListCreateAPIView):
         self.permission_classes = [permissions.IsAuthenticated]
         return super().post(request, *args, **kwargs)
 
+
+class AllProductsView(ListAPIView):
+    permission_classes = [AllowAny]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    pagination_class = None  # This disables pagination
+
 # ProductDetailView ID
 class ProductDetailView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
@@ -107,7 +115,6 @@ class SpecialOffersView(APIView):
 # RecommendedProductsView
 class RecommendedProductsView(APIView):
     permission_classes = [AllowAny]
-
     def get(self, request):
         recommended_products = Product.objects.order_by('?')[:4]
         serializer = ProductSerializer(recommended_products, many=True)
@@ -116,7 +123,6 @@ class RecommendedProductsView(APIView):
 # NewestBooksView
 class NewestBooksView(APIView):
     permission_classes = [AllowAny]
-
     def get(self, request):
         current_year = datetime.now().year
         newest_books = Product.objects.filter(published_year__year=current_year).order_by('-published_year')[:100]
@@ -127,21 +133,10 @@ class NewestBooksView(APIView):
 # FiveStarProductsView
 class FiveStarProductsView(APIView):
     permission_classes = [AllowAny]
-
     def get(self, request):
         five_star_products = Product.objects.filter(stars=5.0)[:5]
         serializer = ProductSerializer(five_star_products, many=True)
         return Response(serializer.data)
-
-# HistoryCategoryProductsView
-class HistoryCategoryProductsView(APIView):
-    permission_classes = [AllowAny]
-
-    def get(self, request):
-        history_products = Product.objects.filter(categories__name="History")[:5]
-        serializer = ProductSerializer(history_products, many=True)
-        return Response(serializer.data)
-
 
 # add_to_cart
 @api_view(['POST'])

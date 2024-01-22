@@ -24,6 +24,7 @@ export interface Product {
 }
 
 interface ProductsState {
+  allOfProducts: Product[];
   allProducts: Product[];
   bestSellerProducts: Product[];
   fetchSpecialOffers: Product[];
@@ -40,6 +41,7 @@ interface ProductsState {
 }
 
 const initialState: ProductsState = {
+  allOfProducts: [],
   allProducts: [],
   bestSellerProducts: [],
   fetchSpecialOffers: [],
@@ -56,6 +58,20 @@ const initialState: ProductsState = {
 };
 
 // Thunk for fetching all products
+export const fetchAllProducts = createAsyncThunk(
+  'products/fetchAllProducts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/all-products/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Error fetching all products');
+    }
+  }
+);
+
+
+// Thunk for fetching pagination products
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (page: number, { rejectWithValue }) => {
@@ -76,26 +92,6 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-
-// Thunk for fetching all products without specifying a page number
-export const fetchAllProducts = createAsyncThunk(
-  'products/fetchAllProducts',
-  async (_, { rejectWithValue }) => {
-    try {
-      // Adjust the URL according to your API
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/products/`);
-      
-      // Adjust this according to your API's response structure
-      if (response.data && response.data.results) {
-        return response.data.results;
-      } else {
-        return rejectWithValue('Unexpected response format');
-      }
-    } catch (error) {
-      return rejectWithValue('Error fetching products');
-    }
-  }
-);
 
 // Thunk for fetching a single product by its ID
 export const fetchProductById = createAsyncThunk(
@@ -193,18 +189,6 @@ export const fetchFiveStarProducts = createAsyncThunk(
 );
 
 
-// Thunk for fetching products in the 'history' category
-export const fetchHistoryCategoryProducts = createAsyncThunk(
-  'products/fetchHistoryCategoryProducts',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/history-category-products/`);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue('Error fetching history category products');
-    }
-  }
-);
 
 // Creating the slice
 const productsSlice = createSlice({
@@ -213,6 +197,19 @@ const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      /* fetch All Products */
+      .addCase(fetchAllProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllProducts.fulfilled, (state, action) => {
+        state.allOfProducts = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchAllProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
       /* fetchProductById */
       .addCase(fetchProductById.fulfilled, (state, action) => {
         state.currentProduct = action.payload;
@@ -232,19 +229,6 @@ const productsSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
-      })
-
-      /* fetchAllProducts */
-      .addCase(fetchAllProducts.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchAllProducts.fulfilled, (state, action) => {
-        state.allProducts = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(fetchAllProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
@@ -323,19 +307,6 @@ const productsSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(fetchFiveStarProducts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
-      })
-
-      // In the fetchHistoryCategoryProducts
-      .addCase(fetchHistoryCategoryProducts.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchHistoryCategoryProducts.fulfilled, (state, action) => {
-        state.historyCategoryProducts = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(fetchHistoryCategoryProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })

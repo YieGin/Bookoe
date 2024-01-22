@@ -8,7 +8,7 @@ import { selectSelectedPublishers, setSelectedPublishers } from '@/redux/feature
 
 const Publisher = () => {
     const dispatch = useAppDispatch();
-    const allProducts = useAppSelector((state) => state.products.allProducts);
+    const allOfProducts = useAppSelector((state) => state.products.allOfProducts);
     const globalSelectedPublishers = useAppSelector(selectSelectedPublishers);
 
     // Initialize state with a default value
@@ -21,13 +21,13 @@ const Publisher = () => {
 
     useEffect(() => {
         const publisherSet = new Set<string>();
-        allProducts.forEach(product => {
+        allOfProducts.forEach(product => {
             if (product.publisher) {
                 publisherSet.add(product.publisher);
             }
         });
         setUniquePublishers(publisherSet);
-    }, [allProducts]);
+    }, [allOfProducts]);
 
     // Update state based on sessionStorage when component mounts
     useEffect(() => {

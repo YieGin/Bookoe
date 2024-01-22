@@ -43,7 +43,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, onAddFav
       animate={controls}
       variants={variants}
       className='rounded-[14px] border-[1px] dark:border-[#5c5c5c] p-5 relative lg-md:w-[250px] md:w-[200px]'
-      onClick={navigateToProductPage}
     >
       <div 
         onClick={() => onAddFavorite(product.id)} 
@@ -51,12 +50,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, onAddFav
       >
         <LuHeart className='text-[20px] text-white' />
       </div>
-      <img className='lg-md:h-[320px] lg-md:w-[220px] object-cover cursor-pointer rounded-[14px] hover:scale-110 transition-all duration-300 ease-in-out' src={product.image} alt={product.title} />
+      <img onClick={navigateToProductPage} className='lg-md:h-[320px] lg-md:w-[220px] object-cover cursor-pointer rounded-[14px] hover:scale-110 transition-all duration-300 ease-in-out' src={product.image} alt={product.title} />
       <div className='flex flex-col items-center mt-5 gap-y-1'>
         <h1 className='text-[#11142D] dark:text-[#fff] font-bold text-[16px] font-Cairo line-clamp-1'>{product.title}</h1>
         <div className='flex gap-x-2 flex-wrap w-full items-center justify-center'>
           {product.categories.map((category, index) => (
-            <p key={index} className='text-[#6C5DD3] dark:text-[#8a7bf0] text-[14px] font-sans cursor-pointer'>
+            <p key={index} className='text-[#6C5DD3] dark:text-[#8a7bf0] text-[14px] font-sans'>
               {typeof category === 'string' ? category : category.name}
             </p>
           ))}

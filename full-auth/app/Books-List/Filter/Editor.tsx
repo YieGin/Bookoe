@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { FiMinus, FiPlus } from "react-icons/fi";
-import { fetchBestSellers, fetchFiveStarProducts, fetchHistoryCategoryProducts, fetchNewestBooks } from '@/redux/features/productsSlice';
+import { fetchBestSellers, fetchFiveStarProducts, fetchNewestBooks } from '@/redux/features/productsSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -21,7 +21,6 @@ const Editor = () => {
   dispatch(fetchBestSellers());
   dispatch(fetchNewestBooks());
   dispatch(fetchFiveStarProducts());
-  dispatch(fetchHistoryCategoryProducts());
   }, [dispatch]);
 
   const toggleBestSellers = () => { setShowBestSellers(prevShow => !prevShow);};

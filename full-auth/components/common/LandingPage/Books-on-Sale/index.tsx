@@ -9,7 +9,7 @@ import { GrFormPrevious } from "react-icons/gr";
 
 const index = () => {
   const dispatch = useAppDispatch();
-  const { allProducts, isLoading, error } = useAppSelector((state) => state.products);
+  const { allOfProducts, isLoading, error } = useAppSelector((state) => state.products);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -119,7 +119,7 @@ const index = () => {
           onMouseEnter={() => setIsHovering(true)}
         >
         <div className='flex'>
-          {allProducts.map((product) => (
+          {allOfProducts.map((product) => (
             <div key={product.id} className='flex flex-col cursor-pointer'>
               <div className="w-[295px] pr-7 relative">
                 {typeof product.discount_percentage === 'number' && (
