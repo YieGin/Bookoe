@@ -1,6 +1,6 @@
 # ecommerce/urls.py
 from django.urls import path
-from .views import AllProductsView, ProductListCreateView, BestSellerView, ProductDetailView, SpecialOffersView, RecommendedProductsView, NewestBooksView, FiveStarProductsView, add_to_favorites, favorite_count, add_to_cart, cart_count, list_favorites
+from .views import AllProductsView, ProductListCreateView, BestSellerView, ProductDetailView, SpecialOffersView, RecommendedProductsView, RelatedBooksView, NewestBooksView, FiveStarProductsView, add_to_favorites, favorite_count, add_to_cart, cart_count, list_favorites, remove_from_cart
 
 urlpatterns = [
     path('all-products/', AllProductsView.as_view(), name='all-products'),
@@ -16,4 +16,6 @@ urlpatterns = [
     path('favorites-count/', favorite_count, name='favorites-count'),
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add-to-cart'),
     path('cart-count/', cart_count, name='cart-count'),
+    path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove-from-cart'),
+    path('related-books/<int:book_id>/', RelatedBooksView.as_view(), name='related-books'),
 ]

@@ -138,26 +138,44 @@ class FiveStarProductsView(APIView):
         serializer = ProductSerializer(five_star_products, many=True)
         return Response(serializer.data)
 
+# RelatedBooksView
+class RelatedBooksView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        book_id = self.kwargs['book_id']
+        current_book = get_object_or_404(Product, id=book_id)
+        categories = current_book.categories.values_list('name', flat=True)
+
+        related_books = Product.objects.filter(categories__name__in=categories).exclude(id=book_id).distinct()[:3]
+        return related_books
+
 # add_to_cart
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_to_cart(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
+    quantity = request.data.get('quantity', 1)  # Get quantity from the request
+
     cart_item, created = Cart.objects.get_or_create(user=user, product=product)
 
-    if created:
-        cart_item.quantity = 1
-        cart_item.save()
-        return Response({'status': 'added'}, status=status.HTTP_201_CREATED)
-    else:
-        cart_item.quantity += 1
-        cart_item.save()
-
-    product.sales_count += 1
-    product.save()
+    cart_item.quantity = quantity  # Set quantity as requested
+    cart_item.save()
 
     return Response({'status': 'quantity updated'}, status=status.HTTP_200_OK)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_from_cart(request, product_id):
+    user = request.user
+    product = get_object_or_404(Product, id=product_id)
+
+    Cart.objects.filter(user=user, product=product).delete()
+
+    return Response({'status': 'removed'}, status=status.HTTP_204_NO_CONTENT)
 
 
 # cart_count

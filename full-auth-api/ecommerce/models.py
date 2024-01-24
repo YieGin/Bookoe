@@ -28,6 +28,8 @@ class Category(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.99'))
+    reviews = models.PositiveIntegerField(default=22)
+    like = models.PositiveIntegerField(default=312)
     image = models.ImageField(upload_to='products/')
     discount = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal('0.99'))
     categories = models.ManyToManyField(Category, blank=True)
