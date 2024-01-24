@@ -30,7 +30,7 @@ const Delivery = () => {
   ];
 
   return (
-    <div className='flex gap-x-2 gap-y-5 mt-20 w-full xs:flex-wrap lg:flex-nowrap xl:px-44 lg:px-24 md:px-10 xs:px-5'>
+    <div className='flex gap-x-2 gap-y-5 mt-20 w-full xs:flex-wrap lg:flex-nowrap xl:px-44 lg:px-24 md:px-10 xs:px-5 bg-[#F0EEFF] py-10'>
       {deliveryItems.map((item, index) => (
         <div className='flex gap-x-3' key={index}>
             <div>

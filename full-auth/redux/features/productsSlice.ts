@@ -4,7 +4,9 @@ import axios from 'axios';
 const PRODUCTS_PER_PAGE = 16;
 export interface Product {
   id: number;
+  reviews: number;
   title: string;
+  like: string;
   image: string;
   author: string;
   discount: string;
@@ -16,9 +18,15 @@ export interface Product {
   publisher: string;
   discount_percentage: number;
   topic: string;
+  language: string;
+  book_format: string;
   is_best_seller: boolean;
   is_special: boolean;
+  free_shipping: boolean;
+  in_stock: boolean;
   sales_count: number;
+  shipping_price: number;
+  isbn: number;
   additional_images: { image: string }[];
   // Add other properties of Product as needed
 }
@@ -33,6 +41,7 @@ interface ProductsState {
   newestBooks: Product[];
   fiveStarProducts: Product[];
   historyCategoryProducts: Product[];
+  relatedBooks: Product[];
   currentProduct: Product | null;
   isLoading: boolean;
   error: string | null;
@@ -50,6 +59,7 @@ const initialState: ProductsState = {
   newestBooks: [],
   fiveStarProducts: [],
   historyCategoryProducts: [],
+  relatedBooks: [],
   isLoading: false,
   error: null,
   currentPage: 1,
@@ -188,7 +198,18 @@ export const fetchFiveStarProducts = createAsyncThunk(
   }
 );
 
-
+// Thunk for fetching related books
+export const fetchRelatedBooks = createAsyncThunk(
+  'products/fetchRelatedBooks',
+  async (bookId: number, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/related-books/${bookId}/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Error fetching related books');
+    }
+  }
+);
 
 // Creating the slice
 const productsSlice = createSlice({
@@ -310,6 +331,14 @@ const productsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       })
+
+      // In the fetchRelatedBooks
+      .addCase(fetchRelatedBooks.fulfilled, (state, action) => {
+        state.relatedBooks = action.payload;
+      })
+      .addCase(fetchRelatedBooks.rejected, (state, action) => {
+        state.error = action.payload as string;
+      });
   },
 });
 

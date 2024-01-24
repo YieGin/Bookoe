@@ -10,7 +10,7 @@ const Testimonials = () => {
     },
     {
       text: "Bookoe's user-friendly mobile app allows me to carry my entire book collection in my pocket. It's a must-have for anyone who loves to read on the go.",
-      name: "Islam Belamri",
+      name: "Jair abred",
       role: "Book Lovers",
       stars: 5,
     },

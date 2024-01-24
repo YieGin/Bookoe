@@ -40,6 +40,22 @@ export const addToCart = createAsyncThunk(
   }
 );
 
+
+export const removeFromCart = createAsyncThunk(
+  'cart/removeFromCart',
+  async (productId: number, { rejectWithValue }) => {
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/remove-from-cart/${productId}/`, {
+        withCredentials: true,
+      });
+      toast.success('Product removed from cart!');
+      return productId;
+    } catch (err) {
+      // Handle errors
+    }
+  }
+);
+
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -55,9 +71,9 @@ const cartSlice = createSlice({
       .addCase(addToCart.fulfilled, (state, action: PayloadAction<{ productId: number, quantity: number }>) => {
         state.isLoading = false;
         const { productId, quantity } = action.payload;
-        const existingItem = state.cartItems.find(item => item.productId === productId);
-        if (existingItem) {
-          existingItem.quantity += quantity;
+        const existingItemIndex = state.cartItems.findIndex(item => item.productId === productId);
+        if (existingItemIndex !== -1) {
+          state.cartItems[existingItemIndex].quantity = quantity; // Update the quantity
         } else {
           state.cartItems.push({ productId, quantity });
         }

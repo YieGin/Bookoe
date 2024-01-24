@@ -13,6 +13,7 @@ import {
   selectSelectedPublishers 
 } from '@/redux/features/filterSlice';
 import ProductCard from './ProductCard';
+import { fetchFavoritesCount } from '@/redux/features/favoritesCountSlice';
 
 interface BooksProductsProps {
   currentPage: number;
@@ -50,24 +51,12 @@ const BooksProducts: React.FC<BooksProductsProps> = ({ currentPage }) => {
     try {
       await dispatch(addFavorite(productId)).unwrap();
       setFavoriteIds(new Set([...favoriteIds, productId]));
+      dispatch(fetchFavoritesCount());
     } catch (error) {
       console.error('Error adding to favorites:', error);
     } finally {
       setIsAdding(false);
     }
-  };
-
-  const renderStars = (stars: number) => {
-    return (
-      <>
-        {Array.from({ length: stars }, (_, i) => (
-          <LiaStarSolid key={`star-${i}`} className='text-[#FF754C] text-[24px]' />
-        ))}
-        {Array.from({ length: 5 - stars }, (_, i) => (
-          <LiaStarSolid key={`gray-star-${i}`} className='text-gray-400 text-[24px]' />
-        ))}
-      </>
-    );
   };
 
   let filteredProducts = products.filter(product => {
