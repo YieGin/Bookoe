@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { setSelectedFilter, setDisplayFilter, selectSelectedFilter, selectDisplayFilter } from '@/redux/features/filterSlice';
+import { setSelectedFilter, setDisplayFilter, selectSelectedFilter } from '@/redux/features/filterSlice';
 import { IoIosArrowDown } from 'react-icons/io';
 import { motion, AnimatePresence } from 'framer-motion';
 import FilterPhone from './FilterPhone';
@@ -17,7 +17,6 @@ const BooksFilter: React.FC = () => {
   const dispatch = useAppDispatch();
   const selectedFilter = useAppSelector(selectSelectedFilter);
   const [isOpen, setIsOpen] = useState(false);
-  
 
   const handleFilterSelect = (filter: string, displayText: string) => {
     if (filter === 'Reset') {
@@ -33,8 +32,6 @@ const BooksFilter: React.FC = () => {
     }
     setIsOpen(false);
   };
-
-  
 
   const filterOptions = ['Price: Low to High', 'Price: High to Low', 'Newest Arrivals', 'Alphabetical', 'Reset'];
 

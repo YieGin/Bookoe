@@ -30,7 +30,7 @@ export const addFavorite = createAsyncThunk(
       return response.data;
     } catch (err) {
         if (axios.isAxiosError(err) && err.response && err.response.status === 401) {
-          toast.error("You must be logged in to add favorites. Log in quickly with just a few clicks!");
+          toast.error("You must be logged in to add favorites.");
         } else {
           toast.error('Error adding product to favorites.');
         }
@@ -59,6 +59,24 @@ export const fetchFavorites = createAsyncThunk(
     }
   }
 );
+
+
+export const removeFromFavorite = createAsyncThunk(
+  'favorites/removeFromFavorite',
+  async (productId: number, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/remove-from-favorites/${productId}/`, {
+        withCredentials: true,
+      });
+      return productId;  // Return the ID of the product that was removed
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        return rejectWithValue('Error removing product from favorites');
+      }
+    }
+  }
+);
+
   
 const favoritesSlice = createSlice({
   name: 'favorites',
@@ -87,11 +105,20 @@ const favoritesSlice = createSlice({
         // Make sure we are creating an array of objects with productId property
         state.favorites = action.payload.map(productId => ({ productId }));
       })
-      
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
-      });
+      })
+
+       // Handle the removeFromFavorite action
+      .addCase(removeFromFavorite.fulfilled, (state, action) => {
+        state.favorites = state.favorites.filter(favorite => favorite.productId !== action.payload);
+        toast.success('Product removed from favorites!');
+      })
+      .addCase(removeFromFavorite.rejected, (state, action) => {
+        state.error = typeof action.payload === 'string' ? action.payload : 'An error occurred';
+        toast.error('Error removing product from favorites');
+      })
   },
 });
   

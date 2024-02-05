@@ -30,7 +30,112 @@ html {
     background-color: #0ed;
   }
 
+  .range_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    background: #222;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .range_slider::-moz-range-thumb {
+    width: 17px;
+    height: 17px;
+    background: #222;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+
+  .custom-progress::-webkit-progress-bar {
+    background-color: #d3d3d3;
+    border-radius: 10px;
+  }
+
+  .custom-progress::-webkit-progress-value {
+    background-color: #5A49CA;
+    border-radius: 10px;
+  }
+
+  .custom-progress::-moz-progress-bar {
+    background-color: #5A49CA;
+    border-radius: 10px;
+  }
 
 
- 
+  .button {
+    border-radius: .25rem;
+    max-width: max-content;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: 400;
+    color: #fff;
+    -webkit-clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+    clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+    height: 40px;
+    font-size: 0.7rem;
+    line-height: 14px;
+    letter-spacing: 1.2px;
+    transition: .2s .1s;
+    background-image: linear-gradient(90deg,#1c1c1c,#6220fb);
+    border: 0 solid;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  
+  .button:hover {
+    cursor: pointer;
+    transition: all .3s ease-in;
+    padding-right: 30px;
+    padding-left: 30px;
+  }
 
+
+
+  .Btn {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(15, 15, 15);
+    border: none;
+    color: white;
+    font-weight: 600;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+  }
+
+  
+  .Btn::before {
+    width: 100%;
+    height: 130px;
+    position: absolute;
+    content: "";
+    background-color: white;
+    border-radius: 50%;
+    left: -100%;
+    top: 0;
+    transition-duration: .3s;
+    mix-blend-mode: difference;
+  }
+  
+  .Btn:hover::before {
+    transition-duration: .3s;
+    transform: translate(100%,-50%);
+    border-radius: 0;
+  }
+  
+  .Btn:active {
+    transform: translate(5px,5px);
+    transition-duration: .3s;
+  }

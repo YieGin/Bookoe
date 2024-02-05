@@ -1,6 +1,30 @@
 # ecommerce/urls.py
 from django.urls import path
-from .views import AllProductsView, ProductListCreateView, BestSellerView, ProductDetailView, SpecialOffersView, RecommendedProductsView, RelatedBooksView, NewestBooksView, FiveStarProductsView, add_to_favorites, favorite_count, add_to_cart, cart_count, list_favorites, remove_from_cart
+from .views import (
+    AllProductsView,
+    ProductListCreateView,
+    BestSellerView,
+    ProductDetailView,
+    SpecialOffersView,
+    RecommendedProductsView,
+    RelatedBooksView,
+    NewestBooksView,
+    FiveStarProductsView,
+    ReviewCreateView,
+    ProductReviewListView,
+    CartListView,
+    ProductSearchView,
+    add_to_favorites,
+    remove_from_favorites,
+    favorite_count,
+    add_to_cart,
+    cart_count,
+    list_favorites,
+    remove_from_cart,
+    update_cart_item,
+    create_checkout_session,
+    get_checkout_data,
+)
 
 urlpatterns = [
     path('all-products/', AllProductsView.as_view(), name='all-products'),
@@ -13,9 +37,17 @@ urlpatterns = [
     path('five-star-products/', FiveStarProductsView.as_view(), name='five-star-products'),
     path('favorites/', list_favorites, name='list-favorites'),
     path('add-to-favorites/<int:product_id>/', add_to_favorites, name='add-to-favorites'),
+    path('remove-from-favorites/<int:product_id>/', remove_from_favorites, name='remove-from-favorites'),
     path('favorites-count/', favorite_count, name='favorites-count'),
+    path('cart/', CartListView.as_view(), name='cart-list'),
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add-to-cart'),
+    path('update-cart-item/<int:product_id>/', update_cart_item, name='update-cart-item'),
     path('cart-count/', cart_count, name='cart-count'),
     path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove-from-cart'),
     path('related-books/<int:book_id>/', RelatedBooksView.as_view(), name='related-books'),
+    path('products/<int:product_id>/reviews/', ProductReviewListView.as_view(), name='product-reviews'),
+    path('reviews/create/', ReviewCreateView.as_view(), name='create-review'),
+    path('create-checkout-session/', create_checkout_session, name='create-checkout-session'),
+    path('search-products/', ProductSearchView.as_view(), name='product-search'),
+    path('get-checkout-data/', get_checkout_data, name='get-checkout-data'),
 ]

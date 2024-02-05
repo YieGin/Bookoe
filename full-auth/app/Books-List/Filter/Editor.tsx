@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
+import { IoIosArrowDown } from 'react-icons/io'
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { fetchBestSellers, fetchFiveStarProducts, fetchNewestBooks } from '@/redux/features/productsSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
@@ -15,7 +15,6 @@ const Editor = () => {
   const [showBestSellers, setShowBestSellers] = useState(false);
   const [showNewestBooks, setShowNewestBooks] = useState(false);
   const [showFeatured, setShowFeatured] = useState(false);
-  const [showWatchHistory, setShowWatchHistory] = useState(false);
 
   useEffect(() => {
   dispatch(fetchBestSellers());
@@ -26,7 +25,6 @@ const Editor = () => {
   const toggleBestSellers = () => { setShowBestSellers(prevShow => !prevShow);};
   const toggleNewestBooks = () => { setShowNewestBooks(prevShow => !prevShow);};
   const toggleFeatured = () => { setShowFeatured(prevShow => !prevShow);};
-  const toggleWatchHistory = () => { setShowWatchHistory(prevShow => !prevShow);};
   const toggleEditor = () => { setEditor(prevShow => !prevShow);};
 
   const navigateToProductPage = (productId: number) => {
@@ -118,34 +116,6 @@ const Editor = () => {
               >
                 <div className='space-y-2 mt-2'>
                   {fiveStarProducts.map((item) => (
-                    <div onClick={() => navigateToProductPage(item.id)} className='flex ml-5' key={item.id}>
-                      <p className='text-[#11142D] dark:text-[#F0F0F0] font-sans text cursor-pointer text-[16px]'>{item.title}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Watch History */}
-          <button onClick={toggleWatchHistory} className='flex items-center gap-x-2 mt-5 w-full'>
-            {showWatchHistory ? (
-              <FiMinus className='text-[#6C5DD3] dark:text-[#F0F0F0] text-[15px]' />
-            ) : (
-              <FiPlus className='text-[#6C5DD3] dark:text-[#F0F0F0] text-[15px]' />
-            )}
-            <h2 className='text-[#6C5DD3] dark:text-[#F0F0F0] font-Roboto font-bold text-[18px]'>Watch History</h2>
-          </button>
-          <AnimatePresence>
-            {showWatchHistory && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className='space-y-2 mt-2'>
-                  {historyCategoryProducts.map((item) => (
                     <div onClick={() => navigateToProductPage(item.id)} className='flex ml-5' key={item.id}>
                       <p className='text-[#11142D] dark:text-[#F0F0F0] font-sans text cursor-pointer text-[16px]'>{item.title}</p>
                     </div>

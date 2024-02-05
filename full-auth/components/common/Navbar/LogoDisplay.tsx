@@ -9,7 +9,7 @@ interface LogoDisplayProps {
 }
 
 const LogoDisplay: React.FC<LogoDisplayProps> = ({ theme }) => (
-  <div className="text-3xl font-bold xl:mr-24 lg:mr-5">
+  <div className="text-3xl font-bold xl:mr-24 lg:mr-5 select-none">
     <Link href="/">
       {theme === "dark" ? (
         <Image src={LogoBlack} alt="Logo" width={150} height={150} />

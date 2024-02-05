@@ -4,10 +4,10 @@ import { fetchAllProducts } from '@/redux/features/productsSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { Spinner } from '../..';
 import { MdNavigateNext } from 'react-icons/md';
-import { FaStar } from 'react-icons/fa';
 import { GrFormPrevious } from "react-icons/gr";
+import ProductItem from './ProductItem';
 
-const index = () => {
+const BooksOnSale = () => {
   const dispatch = useAppDispatch();
   const { allOfProducts, isLoading, error } = useAppSelector((state) => state.products);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -110,54 +110,20 @@ const index = () => {
         <GrFormPrevious className="sm:text-[25px] xs:text-[15px] text-white" />
       </button>
       <div
-          className='flex overflow-hidden flex-col font-Cairo'
-          ref={scrollRef} 
-          onMouseDown={startDragging}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={stopDragging}
-          onMouseMove={onDrag}
-          onMouseEnter={() => setIsHovering(true)}
+        className='flex overflow-hidden flex-col font-Cairo'
+        ref={scrollRef} 
+        onMouseDown={startDragging}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={stopDragging}
+        onMouseMove={onDrag}
+        onMouseEnter={() => setIsHovering(true)}
         >
         <div className='flex'>
           {allOfProducts.map((product) => (
-            <div key={product.id} className='flex flex-col cursor-pointer'>
-              <div className="w-[295px] pr-7 relative">
-                {typeof product.discount_percentage === 'number' && (
-                  <p className='text-[#fff] font-semibold sm:text-[16px] xs:text-[14px] absolute top-0 left-0 bg-[#FF754C] sm:py-2 sm:pl-1 sm:pr-3 xs:py-2 xs:pl-1 xs:pr-5 rounded-r-lg'>
-                    {product.discount_percentage.toFixed(2)}%
-                  </p>
-                )}
-                <img
-                  className="h-[400px] w-full object-cover rounded-lg transition-all duration-300 ease-in-out"
-                  src={product.image}
-                  alt={product.title}
-                />
-              </div>
-              <div className='mt-5 pr-6'>
-                <h1 className='font-bold text-[#11142D] dark:text-[#F0F0F0] text-[20px] font-Cairo line-clamp-1'>{product.title}</h1>
-                <div className='flex flex-wrap gap-2'>
-                  {product.categories.map((category, index) => (
-                    <p key={index} className='rounded-[14px] text-[#9087c7] dark:text-[#8a7bf0] font-sans'>
-                      {typeof category === 'string' ? category : category.name}
-                    </p>
-                  ))}
-                </div>
-                <div className='flex mt-5 justify-between'>
-                  <div className='flex gap-x-2'>
-                    <FaStar className="text-[24px] text-[#FF754C]" />
-                    <p className='text-[#FF754C] font-bold'>{product.stars}</p>
-                  </div>
-                  <div className='flex gap-x-2 items-center'>
-                    <p className='text-[#11142D] font-bold text-[20px] dark:text-[#F0F0F0]'>${product.discount}</p>
-                    <p className='text-[#AAAAAA] font-bold text-[16px] line-through'>${product.price}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ProductItem key={product.id} product={product} />
           ))}
         </div>
       </div>
-
       <button 
         className="absolute right-0 z-10 p-2 m-2 bg-[#222] rounded-full shadow-lg"
         onClick={() => smoothScroll(900)}
@@ -169,4 +135,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default BooksOnSale;

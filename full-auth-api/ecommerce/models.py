@@ -74,7 +74,16 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.product.title} - Quantity: {self.quantity}"
+    
 
+class Checkout(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    total_discount = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Checkout by {self.user.email} - Amount: {self.total_amount}"
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='additional_images', on_delete=models.CASCADE)
@@ -82,3 +91,18 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"{self.product.title} Image"
+    
+    
+# Review
+class Review(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    comment = models.TextField(blank=True, null=True)
+    rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.user.email} for {self.product.title}"
+    
+    class Meta:
+        unique_together = ('user', 'product')  # Ensure one review per product per user

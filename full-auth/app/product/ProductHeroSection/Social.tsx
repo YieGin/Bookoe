@@ -14,12 +14,12 @@ const socialLinks = [
   
   const Social = () => {
     return (
-      <div className='flex gap-x-5'>
+      <div className='flex xl:gap-x-5 xs:gap-2 '>
         {socialLinks.map((link) => (
           <Link key={link.name} href={link.url}>
-            <div className={`${link.bgColor} ${link.hoverColor} rounded-[14px] px-4 py-2 flex text-white gap-x-1`}>
-              <link.icon className='text-[20px]' />
-              <p className='font-sans font-semibold text-[14px]'>{link.name}</p>
+            <div className={`${link.bgColor} ${link.hoverColor} rounded-[14px] md:px-4 md:py-2 xs:px-2 xs:py-1 flex items-center text-white gap-x-1`}>
+              <link.icon className='md:text-[20px] xs:text-[11px] xs:hidden md:flex' />
+              <p className='font-sans font-semibold md:text-[14px] xs:text-[14px]'>{link.name}</p>
             </div>
           </Link>
         ))}

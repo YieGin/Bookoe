@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 const Page = () => {
   
   return (
-    <main className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-white shadow-lg">
-        <h1 className="text-2xl font-bold text-center">Reset your password</h1>
+    <main className="flex justify-center items-center h-screen bg-gray-100 dark:bg-[#11161b] font-Cairo">
+      <div className="space-y-3 rounded-xl w-1/3 p-6 shadow-lg">
+        <h1 className="text-2xl font-bold text-center text-[#11142D] dark:text-white">Reset your password</h1>
         <>
           <PasswordResetForm />
         </>

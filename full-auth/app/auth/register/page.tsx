@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 const Page = () => {
   
   return (
-    <main className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-white shadow-lg">
-        <h1 className="text-2xl font-bold text-center">Sign up</h1>
+    <main className="flex justify-center items-center h-screen dark:bg-[#11161b]">
+      <div className="space-y-3 rounded-xl w-1/3 p-6 shadow-lg">
+        <h1 className="text-2xl font-bold text-center dark:text-white">Sign up</h1>
         <>
           <RegisterForm />
           <div className="text-center text-sm text-gray-500">

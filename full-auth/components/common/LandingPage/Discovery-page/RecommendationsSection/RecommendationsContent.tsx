@@ -1,12 +1,15 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { fetchRecommendedProducts, Product } from '@/redux/features/productsSlice';
+import { fetchProductById, fetchRecommendedProducts, Product } from '@/redux/features/productsSlice';
 import { useInView } from 'react-intersection-observer';
 import { motion, useAnimation, Variants } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 
 const ProductItem: React.FC<{ product: Product; index: number }> = ({ product, index }) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.2 });
 
@@ -23,13 +26,23 @@ const ProductItem: React.FC<{ product: Product; index: number }> = ({ product, i
     hidden: { opacity: 0, scale: 0.8 }
   };
 
+  const navigateToProductPage = async (productId: number) => {
+    try {
+      await dispatch(fetchProductById(productId)).unwrap();
+      router.push(`/product/${productId}`);
+    } catch (error) {
+      console.error('Error fetching product by ID:', error);
+    }
+  };
+
   return (
     <motion.div 
+      onClick={() => navigateToProductPage(product.id)}
       ref={ref}
       initial="hidden"
       animate={controls}
       variants={variants}
-      className="md:min-w-[140px] xs:h-[150px] md:h-[250px] border-[4px] cursor-pointer border-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out"
+      className="md:min-w-[140px] xs:h-[150px] md:h-[250px] cursor-pointer shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out"
     >
       <img src={`${process.env.NEXT_PUBLIC_HOST}${product.image}`} alt={product.title} className="w-full h-full object-cover hover:scale-105 lg:brightness-100 hover:brightness-105 transition-all duration-300 ease-in-out" />
     </motion.div>

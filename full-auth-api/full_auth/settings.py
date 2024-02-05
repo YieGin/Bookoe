@@ -4,7 +4,8 @@ import dotenv
 from django.core.management.utils import get_random_secret_key
 import dj_database_url
 import sys
-
+from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +17,8 @@ if path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
     
 DEVELOPMENT_MODE = getenv("DEVELOPMENT_MODE", "False") == "True"
-
+STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -28,6 +30,9 @@ SECRET_KEY = getenv('DJANGO_SECRET_KEY', get_random_secret_key())
 DEBUG = getenv('DEBUG', 'FALSE') == 'True'
 
 ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+
+STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
 
 # Application definition
 
@@ -78,6 +83,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'full_auth.wsgi.application'
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1), 
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

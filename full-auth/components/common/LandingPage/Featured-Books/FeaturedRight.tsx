@@ -36,7 +36,7 @@ const ImageItem: React.FC<{ img: any; index: number }> = ({ img, index }) => {
       <img
         alt={`${img.title} Image ${index}`}
         src={img.image}
-        className='md:w-[230px] md:h-[330px] xl:w-[250px] xl:h-[330px] xs:w-full object-cover rounded-[14px] shadow-lg shadow-[#d6d1f5] dark:shadow-none hover:scale-105 transition-all duration-300 ease-in-out'
+        className='md:w-[230px] md:h-[330px] xl:w-[220px] xl:h-[330px] xs:w-full object-cover rounded-[14px] shadow-lg shadow-[#d6d1f5] dark:shadow-none hover:scale-105 transition-all duration-300 ease-in-out'
       />
     </motion.div>
   );
@@ -61,7 +61,7 @@ const FeaturedRight: React.FC<FeaturedLeftProps> = ({ product }) => {
   }
 
   return (
-    <div className='xl:w-[50%] w-full h-auto relative mt-auto pb-5 xl:pr-20'>
+    <div className='xl:w-[50%] w-full h-auto relative mt-auto pb-5 xl:pr-20 xl:flex xs:hidden'>
       <div className='flex gap-5 flex-wrap items-center justify-center'>
         {product.additional_images.map((img, index) => {
           if (windowWidth <= 600 && index >= 3) {

@@ -21,9 +21,10 @@ const Social = () => {
   return (
     <div className='flex flex-col xl:w-[30%] lg:w-[20%]'>
         <LogoDisplay theme={theme} />
-        <p className='mt-10 text-[#11142D] dark:text-[#fff] text-[16px] font-sans'>
-          Bookoe is a Book Store Website lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        <p className='mt-10 text-[#464B70] dark:text-[#fff] sm:text-[16px] xs:text-[14px] font-sans'>
+          At Bookoe, we&apos;re more than just a bookstore. We are a community of book lovers, a platform for literary exploration,
+          and a bridge connecting readers to the vast world of knowledge and imagination. Whether you&apos;re in search of the latest bestsellers,
+          timeless classics, or undiscovered gems, Bookoe is your destination.
         </p>
         <h2 className='text-[#11142D] dark:text-[#fff] font-bold text-[20px] my-5'>Follow Us</h2>
         <div className='flex gap-x-5'>

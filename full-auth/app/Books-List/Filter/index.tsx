@@ -8,6 +8,7 @@ import Price from './Price';
 import { fetchAllProducts } from '@/redux/features/productsSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { resetFilters } from '@/redux/features/filterSlice';
+import { useRouter } from 'next/navigation';
 
 interface FilterProps {
   onCloseFilter?: () => void;
@@ -15,6 +16,7 @@ interface FilterProps {
 
 const Filter: React.FC<FilterProps> = ({ onCloseFilter }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter()
 
   const handleRefineSearch = () => {
     dispatch(fetchAllProducts());
@@ -24,9 +26,11 @@ const Filter: React.FC<FilterProps> = ({ onCloseFilter }) => {
   };
 
   const handleResetFilters = () => {
-    dispatch(resetFilters()); // Reset all filters
-    dispatch(fetchAllProducts()); // Optionally fetch products again to show unfiltered data
+    dispatch(resetFilters()); // Reset all filters in Redux state
+    dispatch(fetchAllProducts()); // Fetch all products without filters
+    router.push('/books-list');
   };
+
 
   return (
     <div className='font-Cairo w-full'>

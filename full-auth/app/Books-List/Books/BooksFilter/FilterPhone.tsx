@@ -33,15 +33,15 @@ const FilterPhone = () => {
 
   return (
     <div className='xs:flex lg:hidden ml-auto '>
-      <div onClick={handleOpenFilter} className='px-2 py-1 text-[#222] flex gap-x-2'>
+      <div onClick={handleOpenFilter} className='px-2 py-1 text-[#222] dark:text-white  flex gap-x-2'>
         <p>Filter</p>
         <MdOutlineFilterList className='text-[25px]' />
       </div>
-      <div className={`fixed top-0 right-0 h-full xs:w-full bg-white dark:bg-[#232323] md:w-[300px] shadow-lg z-50 transform ${isOpenFilter ? 'translate-x-0' : 'translate-x-full'} ease-in-out duration-300`}>
+      <div className={`fixed top-0 pt-20 right-0 h-full xs:w-full bg-white dark:bg-[#232323] md:w-[300px] shadow-lg z-50 transform ${isOpenFilter ? 'translate-x-0' : 'translate-x-full'} ease-in-out duration-300`}>
         {isOpenFilter ? (
-          <div className='bg-white z-40 xs:w-full px-5 h-screen overflow-y-scroll scrollbar-hide pt-10'>
+          <div className='bg-white dark:bg-[#11161b] z-40 xs:w-full px-5 h-screen overflow-y-scroll scrollbar-hide pt-10'>
             <div onClick={handleOpenFilter}>
-              <IoClose className='top-3 right-3 fixed text-[30px] z-10 text-[#222]' />
+              <IoClose className='top-24 right-3 fixed text-[25px] z-10 text-[#222] dark:text-white' />
             </div>
             <Filter onCloseFilter={handleCloseFilter} />
           </div>

@@ -4,6 +4,7 @@ interface User {
     first_name: string;
     last_name: string;
     email: string;
+    id: string;
 }
 
 interface SocialAuthArgs {
@@ -25,14 +26,15 @@ const authApiSlice = apiSlice.injectEndpoints({
         
         socialAuthenticate: builder.mutation<CreateUserResponse, SocialAuthArgs>({
             query: ({ provider, state, code }) => ({
-                url: `/o/${provider}/?state=${encodeURIComponent(state)}&code=${encodeURIComponent(code)}`,
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-type': 'application/x-www-form-urlencoded'
-                }
+              url: `/o/${provider}/?state=${encodeURIComponent(state)}&code=${encodeURIComponent(code)}`,
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json', // This might need to be 'application/x-www-form-urlencoded'
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify({ state, code }), // This might need to be URL-encoded instead of JSON
             })
-        }),
+          }),          
 
         login: builder.mutation({
             query: ({ email, password }) => ({
@@ -87,6 +89,16 @@ const authApiSlice = apiSlice.injectEndpoints({
                 body: { uid, token, new_password, re_new_password }
             })
         }),
+
+        updateUser: builder.mutation({
+            query: ({ id, ...patchData }) => ({
+                url: `/users/${id}/`,
+                method: 'PATCH',
+                body: patchData,
+                credentials: 'include',
+            }),
+        }),
+
     })
 })
 
@@ -99,5 +111,6 @@ export const {
     useLogoutMutation,
     useActivationMutation,
     useResetPasswordMutation,
-    useResetPasswordConfirmMutation
+    useResetPasswordConfirmMutation,
+    useUpdateUserMutation,
 } = authApiSlice

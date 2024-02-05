@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useEffect } from "react";
 import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -9,9 +9,17 @@ const ThemeToggle: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state: RootState) => state.themeMenu.theme);
 
+  useEffect(() => {
+    const savedTheme = sessionStorage.getItem('theme');
+    if (savedTheme) {
+      dispatch(setTheme(savedTheme));
+    }
+  }, [dispatch]);
+
   const handleThemeSwitch = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     dispatch(setTheme(newTheme));
+    sessionStorage.setItem('theme', newTheme); 
   };
 
   return (

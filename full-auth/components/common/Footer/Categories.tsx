@@ -9,26 +9,26 @@ interface CategoryLink {
 
 const Categories: React.FC = () => {
   const bookCategories: CategoryLink[] = [
-    { name: 'Adventure', href: '/adventure' },
-    { name: 'Animation', href: '/animation' },
-    { name: 'Biography', href: '/biography' },
-    { name: 'Comedy', href: '/comedy' },
-    { name: 'Crime', href: '/crime' },
-    { name: 'Documentary', href: '/documentary' },
-    { name: 'History', href: '/history' },
-    { name: 'Horror', href: '/horror' },
-    { name: 'Mystery', href: '/mystery' },
-    { name: 'Romance', href: '/romance' },
-    { name: 'Sci-fi', href: '/sci-fi' },
-    { name: 'Sport', href: '/sport' },
+    { name: 'Adventure', href: '/books-list?category=Adventure' },
+    { name: 'Animation', href: '/books-list?category=Animation' },
+    { name: 'Biography', href: '/books-list?category=Biography' },
+    { name: 'Comedy', href: '/books-list?category=Comedy' },
+    { name: 'Crime', href: '/books-list?category=Crime' },
+    { name: 'Documentary', href: '/books-list?category=Documentary' },
+    { name: 'History', href: '/books-list?category=History' },
+    { name: 'Horror', href: '/books-list?category=Horror' },
+    { name: 'Mystery', href: '/books-list?category=Mystery' },
+    { name: 'Romance', href: '/books-list?category=Romance' }, // already set
+    { name: 'Sci-fi', href: '/books-list?category=Sci-fi' },
+    { name: 'Sport', href: '/books-list?category=Sport' },
   ];
 
   const quickLinks: CategoryLink[] = [
     { name: 'About us', href: '/about' },
     { name: 'Contact us', href: '/contact' },
-    { name: 'Products', href: '/products' },
-    { name: 'Login', href: '/login' },
-    { name: 'Sign Up', href: '/signup' },
+    { name: 'Products', href: '/books-list' },
+    { name: 'Login', href: '/auth/login' },
+    { name: 'Sign Up', href: '/auth/register' },
     { name: 'FAQ', href: '/faq' },
     { name: 'Shipment', href: '/shipment' },
   ];
@@ -44,10 +44,10 @@ const Categories: React.FC = () => {
   );
 
   return (
-    <div className='xl:w-[30%] lg:w-[40%] xs:w-full flex lg:ml-20 xs:mt-5 lg:mt-0'>
+    <div className='xl:w-[30%] lg:w-[40%] xs:w-full flex lg:ml-20 xs:mt-5 lg:mt-0 xs:justify-between md:justify-normal'>
       <div className='flex flex-col font-Cairo'>
         <h1 className='text-[#11142D] dark:text-[#fff] font-bold sm:text-[20px] xs:text-[15px] mb-5'>Books Categories</h1>
-        <div className='flex xl:gap-x-20 xs:gap-x-5 md:gap-x-10 lg:gap-x-5'>
+        <div className='flex xl:gap-x-20 xs:gap-x-5 sm:gap-x-16 md:gap-x-10 lg:gap-x-5'>
           {renderLinks(bookCategories.slice(0, 6))}
           {renderLinks(bookCategories.slice(6))}
         </div>

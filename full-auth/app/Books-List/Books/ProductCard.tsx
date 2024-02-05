@@ -6,6 +6,7 @@ import { renderStars } from './productUtils';
 import { LuHeart } from "react-icons/lu";
 import { motion, useAnimation, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useGetProductReviewsQuery } from '@/redux/services/apiSlice';
 
 interface ProductCardProps {
   product: Product;
@@ -34,6 +35,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, onAddFav
   const navigateToProductPage = () => {
     router.push(`/product/${product.id}`);
   };
+
+  const { data: reviews } = useGetProductReviewsQuery(product.id.toString());
+  const reviewCount = reviews ? reviews.length : 0;
+  const totalRating = reviews ? reviews.reduce((sum: any, review: any) => sum + review.rating, 0) : 0;
+  const averageRating = reviewCount > 0 ? (totalRating / reviewCount).toFixed(1) : 'No Ratings';
   
 
   return (
@@ -46,7 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, onAddFav
     >
       <div 
         onClick={() => onAddFavorite(product.id)} 
-        className={`absolute cursor-pointer right-5 top-5 p-2 z-10 rounded-md ${isFavorite ? 'bg-red-700' : 'bg-[#6C5DD3]'} flex items-center justify-center`}
+        className={`absolute cursor-pointer right-5 top-5 p-2 z-10 rounded-md bg-[#6C5DD3] flex items-center justify-center`}
       >
         <LuHeart className='text-[20px] text-white' />
       </div>
@@ -55,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, onAddFav
         <h1 className='text-[#11142D] dark:text-[#fff] font-bold text-[16px] font-Cairo line-clamp-1'>{product.title}</h1>
         <div className='flex gap-x-2 flex-wrap w-full items-center justify-center'>
           {product.categories.map((category, index) => (
-            <p key={index} className='text-[#6C5DD3] dark:text-[#8a7bf0] text-[14px] font-sans'>
+            <p key={index} className='text-[#6C5DD3] dark:text-[#7381fc] text-[14px] font-sans'>
               {typeof category === 'string' ? category : category.name}
             </p>
           ))}
@@ -65,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, onAddFav
           <p className='text-[#AAAAAA] font-bold text-[16px] line-through'>${product.price}</p>
         </div>
         <div className='flex gap-x-2 items-center'>
-          {renderStars(parseInt(product.stars))}
+          {renderStars(parseInt(averageRating))}
         </div>
       </div>
     </motion.div>

@@ -41,16 +41,17 @@ const News = () => {
     <div className='md:mt-36 xs:mt-20 xl:px-44 lg:px-24 md:px-10 xs:px-5'>
       <h1 className='text-[#11142D] dark:text-[#F0F0F0] font-bold md:text-[50px] xs:text-[20px]'>Letest News</h1>
       <div className='flex justify-between xs:flex-wrap md:flex-nowrap'>
-        <p className='text-[#aaa] md:text-[16px] xs:text-[13px] font-sans xs:w-[100%] md:w-[80%] lg-md:w-[30%]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-        <div className='flex cursor-pointer gap-x-4 rounded-[14px] md:px-4 md:py-2 xs:px-4 xs:py-2 bg-[#6C5DD3] hover:bg-[#5d4cce] text-white items-center justify-between xs:mt-3 md:mt-0'>
-            <p className='font-semibold lg-md:text-[18px] md:text-[14px] xs:text-[12px] font-Cairo'>View more</p>
-            <FaArrowRightLong className='md:text-[20px]' />
-        </div>
+        <p className='text-[#aaa] md:text-[16px] xs:text-[13px] font-sans xs:w-[100%] md:w-[80%] lg-md:w-[30%]'>
+          Welcome to the Bookoe News Section – your go-to source for all the latest happenings in the literary world.
+          Whether it&apos;s the announcement of a highly anticipated novel, the reveal of an exclusive author interview, or the buzz around the hottest book-to-screen
+          adaptations, you&apos;ll find it all right here.
+        </p>
+        
       </div>
       <div className='flex gap-x-5 md:flex-nowrap xs:flex-wrap'>
         {newsData.map((news, index) => (
           <div key={index} className='flex flex-col md:mt-20 xs:mt-10 gap-x-5'>
-            <Image className='xl:h-[400px] cursor-pointer rounded-[14px] md:h-[150px] hover:scale-105 transition-all duration-300 ease-in-out' width={500} height={300} src={news.image} alt={`NewsImage${index + 1}`} />
+            <Image className='xl:h-[400px] cursor-pointer object-cover rounded-[14px] md:h-[150px] hover:scale-105 transition-all duration-300 ease-in-out' width={500} height={300} src={news.image} alt={`NewsImage${index + 1}`} />
             <h2 className='lg-md:mt-10 xs:mt-5 lg-md:mb-5 md:mb-2 xs:mb-2 text-[#11142D] dark:text-[#F0F0F0] font-semibold lg-md:text-[16px] md:text-[12px] xs:text-[18px] font-Cairo'>{news.title}</h2>
             <p className='text-[#aaa] dark:text-[#c7c7c7] lg-md:text-[14px] md:text-[12px] font-sans line-clamp-2'>{news.description}</p>
             <p className='text-[#6C5DD3] dark:text-[#8a7bf0] lg-md:text-[14px] md:text-[12px] font-sans cursor-pointer mt-1'>Continue reading</p>

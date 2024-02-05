@@ -19,7 +19,7 @@ export const store = configureStore({
         themeMenu: themeMenuReducer,
         cart: cartReducer,
         filter: filterReducer,
-        cartCount: cartCountReducer, 
+        cartCount: cartCountReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
     devTools: process.env.NODE_ENV !== 'production',

@@ -1,9 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { fetchBestSellers, fetchProductById } from '@/redux/features/productsSlice';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { useRouter } from 'next/navigation';
+import { IoArrowRedoCircle, IoArrowUndoCircle } from 'react-icons/io5';
+import { MdNavigateNext } from 'react-icons/md';
+import { GrFormPrevious } from 'react-icons/gr';
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -35,12 +37,15 @@ const Sidebar = () => {
   const currentBestSeller = bestSellers[currentBestSellerIndex] || {};
 
   return (
-    <div className='bg-[#9C9C9C] dark:bg-[#232323] rounded-3xl h-[662px] md:flex xs:hidden items-center flex-col py-10 px-3'>
+    <div className='bg-[#9C9C9C] dark:bg-[#11161b] rounded-3xl h-[662px] md:flex xs:hidden items-center flex-col py-10 px-3'>
       <h1 className='font-bold text-white text-[38px]'>Best Seller</h1>
       <p className='text-white text-[14px] font-sans'>Based on sales this week</p>
       <div className='flex justify-center items-center'>
-        <button className='bg-[#AAAAAA] mr-2 rounded-full p-1 cursor-pointer' onClick={handlePrevious}>
-          <IoIosArrowBack size={20} color='#fff' />
+        <button 
+          className="text-[#2c2c2c] dark:text-white p-2 m-2 bg-[#222] rounded-full shadow-lg"
+          onClick={handlePrevious}
+        >
+          <GrFormPrevious className="sm:text-[25px] xs:text-[15px] text-white" />
         </button>
         {bestSellers.length > 0 && (
           <div onClick={() => navigateToProductPage(currentBestSeller.id)} className="w-[200px] h-[300px] border-4 cursor-pointer border-white mt-5 shadow-white rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out">
@@ -51,9 +56,11 @@ const Sidebar = () => {
             />
           </div>
         )}
-
-        <button className='bg-[#AAAAAA] ml-2 rounded-full p-1 cursor-pointer' onClick={handleNext}>
-          <IoIosArrowForward size={20} color='#fff' />
+        <button 
+          className="text-[#2c2c2c] dark:text-white p-2 m-2 bg-[#222] rounded-full shadow-lg"
+          onClick={handleNext}
+        >
+          <MdNavigateNext className="sm:text-[25px] xs:text-[15px] text-white" />
         </button>
       </div>
       <h3 className='font-bold text-white text-[20px] mt-5'>{currentBestSeller.title}</h3>

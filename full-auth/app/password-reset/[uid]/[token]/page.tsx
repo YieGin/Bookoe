@@ -18,9 +18,9 @@ interface Props {
 const Page = ({ params: {uid, token}}: Props) => {
   
   return (
-    <main className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-white shadow-lg">
-        <h1 className="text-2xl font-bold text-center">Reset your password</h1>
+    <main className="flex justify-center items-center h-screen dark:bg-[#11161b] md:px-10 xs:px-3">
+      <div className="space-y-3 rounded-xl lg:w-1/3 p-6 shadow-lg">
+        <h1 className="sm:text-2xl xs:text-[15px] font-bold text-center dark:text-white">Reset your password</h1>
         <>
           <PasswordResetConfirmForm uid={uid} token={token} />
         </>

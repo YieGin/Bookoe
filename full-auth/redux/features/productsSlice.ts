@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const PRODUCTS_PER_PAGE = 16;
+const PRODUCTS_PER_PAGE = 20;
 export interface Product {
   id: number;
-  reviews: number;
+  reviews: any;
   title: string;
   like: string;
   image: string;
@@ -27,7 +27,11 @@ export interface Product {
   sales_count: number;
   shipping_price: number;
   isbn: number;
+  rating: number;
+  quantity: number;
   additional_images: { image: string }[];
+  ratingCount: { [key: number]: number };
+  averageRating: string | number;
   // Add other properties of Product as needed
 }
 
@@ -42,11 +46,14 @@ interface ProductsState {
   fiveStarProducts: Product[];
   historyCategoryProducts: Product[];
   relatedBooks: Product[];
+  favoriteProducts: Product[];
+  searchResults: Product[];
   currentProduct: Product | null;
   isLoading: boolean;
   error: string | null;
   currentPage: number;
   totalPages: number;
+  searchTerm: string;
 }
 
 const initialState: ProductsState = {
@@ -60,11 +67,14 @@ const initialState: ProductsState = {
   fiveStarProducts: [],
   historyCategoryProducts: [],
   relatedBooks: [],
+  favoriteProducts: [],
+  searchResults: [],
   isLoading: false,
   error: null,
   currentPage: 1,
   totalPages: 0,
   currentProduct: null,
+  searchTerm: "",
 };
 
 // Thunk for fetching all products
@@ -80,6 +90,19 @@ export const fetchAllProducts = createAsyncThunk(
   }
 );
 
+// Thunk for fetchProductsBySearchTerm
+export const fetchProductsBySearchTerm = createAsyncThunk(
+  'products/fetchProductsBySearchTerm',
+  async (searchTerm: string, { rejectWithValue }) => {
+    try {
+      // Update the URL to match your backend's search endpoint
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/search-products/?search=${searchTerm}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Error during product search');
+    }
+  }
+);
 
 // Thunk for fetching pagination products
 export const fetchProducts = createAsyncThunk(
@@ -102,7 +125,6 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-
 // Thunk for fetching a single product by its ID
 export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
@@ -116,7 +138,6 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-
 // Thunk for fetching best-seller products
 export const fetchBestSellers = createAsyncThunk(
   'products/fetchTopBestSellers',
@@ -129,7 +150,6 @@ export const fetchBestSellers = createAsyncThunk(
     }
   }
 );
-
 
 // Thunk for fetching Special Offers products
 export const fetchSpecialOffers = createAsyncThunk(
@@ -211,11 +231,33 @@ export const fetchRelatedBooks = createAsyncThunk(
   }
 );
 
+// Thunk for fetching favorite products
+export const fetchFavoriteProducts = createAsyncThunk(
+  'products/fetchFavoriteProducts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/favorites/`, {
+        withCredentials: true
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Error fetching favorite products');
+    }
+  }
+);
+
 // Creating the slice
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    setLoading(state, action) {
+      state.isLoading = action.payload;
+    },
+    changeSearchTerm(state, action) {
+      state.searchTerm = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       /* fetch All Products */
@@ -231,12 +273,23 @@ const productsSlice = createSlice({
         state.error = action.payload as string;
       })
 
+      .addCase(fetchProductsBySearchTerm.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchProductsBySearchTerm.fulfilled, (state, action) => {
+        state.searchResults = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchProductsBySearchTerm.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
       /* fetchProductById */
       .addCase(fetchProductById.fulfilled, (state, action) => {
         state.currentProduct = action.payload;
       })
       .addCase(fetchProductById.rejected, (state, action) => {
-        // Handle rejection case
         state.error = action.payload as string;
       })
 
@@ -338,8 +391,22 @@ const productsSlice = createSlice({
       })
       .addCase(fetchRelatedBooks.rejected, (state, action) => {
         state.error = action.payload as string;
-      });
+      })
+
+      // In the fetchFavoriteProducts
+      .addCase(fetchFavoriteProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchFavoriteProducts.fulfilled, (state, action) => {
+        state.favoriteProducts = action.payload;
+        state.isLoading = false;
+      })      
+      .addCase(fetchFavoriteProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
   },
 });
 
+export const { changeSearchTerm } = productsSlice.actions;
 export default productsSlice.reducer;

@@ -24,11 +24,11 @@ export default function Input({ type, name, onChange, placeholder, link, value, 
             onChange={onChange}
             value={value}
             required={required}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-[#6C5DD3]"
         />
         {link && (
             <div>
-                <Link className="font-semibold text-indigo-600 hover:text-indigo-700" href={link.linkUrl}>
+                <Link className="font-semibold text-[#7381fc]" href={link.linkUrl}>
                     {link.linkText}
                 </Link>
             </div>

@@ -22,6 +22,14 @@ export default function RootLayout({
         <Provider>
             <Setup />
             <Navbar />
+            <div className='fixed left-[-100px] top-[40%] z-50 rotate-90 font-bold text-[50px] gap-5 text-[#2E2E2E] dark:text-white font-Roboto xs:hidden lg:flex'>
+              <span>B</span>
+              <span>o</span>
+              <span>o</span>
+              <span>K</span>
+              <span>o</span>
+              <span>e</span>
+            </div>
             {children}
             <Footer />
         </Provider>

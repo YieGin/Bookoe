@@ -51,7 +51,7 @@ const Price = () => {
                             max="1000"
                             value={minPrice}
                             onChange={(e) => handleMinPriceChange(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-[#F0F0F0]"
+                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-[#F0F0F0] dark:text-[#fff] range_slider"
                         />
                         <input
                             type="range"
@@ -59,7 +59,7 @@ const Price = () => {
                             max="1000"
                             value={maxPrice}
                             onChange={(e) => handleMaxPriceChange(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-200 text-green-500 rounded-lg appearance-none cursor-pointer dark:bg-[#F0F0F0]"
+                            className="w-full h-2 bg-gray-200 text-green-500 rounded-lg appearance-none cursor-pointer dark:bg-[#F0F0F0] range_slider"
                         />
                         <div className="flex justify-between text-[#11142D] dark:text-[#fff] ">
                             <span>${minPrice}</span>

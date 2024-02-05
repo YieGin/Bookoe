@@ -13,7 +13,7 @@ const config: Config = {
         lg: "1280px",        //Tablet
         'lg-md': '1000px', // breakpoint between lg and md
         md: "768px",         //TabletSm
-        sm: "480px",         //Smartphones
+        sm: "420px",         //Smartphones
         xs: "280px",         //SmartphonesSm
       },
     extend: {

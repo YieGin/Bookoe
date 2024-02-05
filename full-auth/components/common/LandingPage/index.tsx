@@ -1,7 +1,6 @@
 export { default as Hero } from './Hero-page'
 export { default as Delivery } from './Delivery'
 export { default as Discovery } from './Discovery-page'
-export { default as Products } from './Products'
 export { default as Special } from './Special-page'
 export { default as BooksOnSale } from './Books-on-Sale'
 export { default as FeaturedBooks } from './Featured-Books'

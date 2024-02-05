@@ -1,5 +1,5 @@
 export { default as Logo } from './svgs/logo.svg'
-export { default as Menu } from './svgs/Menu.svg'
+export { default as MenuSvg } from './svgs/Menu-Svg.svg'
 export { default as LogoBlack } from './svgs/Logo-dark.svg'
 export { default as Collections } from './svgs/Collections.svg'
 export { default as Customers } from './svgs/Customers.svg'

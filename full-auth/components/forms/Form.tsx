@@ -40,10 +40,10 @@ export default function Form({ config, isLoading, btnText, onChange, onSubmit }:
             <div>
                 <button
                     type="submit"
-                    className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                    className="w-full px-4 py-2 text-white rounded-md bg-[#6C5DD3] hover:bg-[#2d2469]"
                     disabled={isLoading}
                 >
-                    {isLoading ? <Spinner sm /> : btnText}
+                    {isLoading ? <Spinner lg /> : btnText}
                 </button>
             </div>
         </form>

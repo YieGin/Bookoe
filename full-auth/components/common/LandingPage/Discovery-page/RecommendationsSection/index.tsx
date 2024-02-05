@@ -4,7 +4,7 @@ import RecommendationsContent from "./RecommendationsContent";
 const RecommendationsSection = () => {
   return (
     <div className='font-Cairo flex lg:justify-start md:justify-center lg:flex-row gap-x-5 pt-10'>
-      <div className='w-full h-full md:mb-10 xs:pb-10 xl:pb-0 sm:px-10 xs:px-5 bg-[#fff6ef] dark:bg-[#232323] rounded-3xl relative overflow-hidden'>
+      <div className='w-full h-full md:mb-10 xs:pb-10 xl:pb-0 sm:px-10 xs:px-5 bg-[#fff6ef] dark:bg-[#11161b] rounded-3xl relative overflow-hidden'>
         <DotPattern />
         <div className='absolute top-0 right-2 bg-[#ffe7d4] dark:bg-[#FFE7D4] rounded-full w-[300px] h-[300px] -translate-y-1/2 translate-x-1/2'/>
         <div className='absolute bottom-0 z-0 left-2 bg-[#ffe7d4] dark:bg-[#FFE7D4] rounded-full w-[300px] h-[300px] translate-y-1/2 -translate-x-1/2'/>

@@ -1,31 +1,48 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoCheckbox } from 'react-icons/io5';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setYearFilter, selectYearFilter } from '@/redux/features/filterSlice';
 import { MdCheckBoxOutlineBlank } from 'react-icons/md';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const Year = () => {
     const dispatch = useAppDispatch();
-    const selectedYear = useAppSelector(selectYearFilter);
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const initialYear = searchParams.get('year');
+    const [selectedYear, setSelectedYear] = useState(initialYear);
     const [showYear, setShowYear] = useState(false);
 
-    const toggleYear = () => {
-        setShowYear(prevShow => !prevShow);
-    };
+    useEffect(() => {
+        if (selectedYear) {
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.set('year', selectedYear);
+            router.push(`/books-list?${newSearchParams.toString()}`);
+        }
+    }, [selectedYear, router]);
+
+    const toggleYear = () => setShowYear(prevShow => !prevShow);
 
     const handleYearSelect = (year: number) => {
-        // Check if the selected year is already the current filter
+        const newSearchParams = new URLSearchParams(searchParams);
         if (selectedYear === year.toString()) {
-            // If it is, reset the year filter
-            dispatch(setYearFilter(''));
+            newSearchParams.delete('year'); // Remove the year parameter
+            setSelectedYear(''); // Clear the selected year state
         } else {
-            // Otherwise, set it to the chosen year
-            dispatch(setYearFilter(year.toString()));
+            newSearchParams.set('year', year.toString()); // Set the new year
+            setSelectedYear(year.toString()); // Update the selected year state
         }
+        // Maintain the category filter if it exists
+        const category = searchParams.get('category');
+        if (category) {
+            newSearchParams.set('category', category);
+        }
+        router.push(`/books-list?${newSearchParams.toString()}`);
     };
+
     const years = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017];
 
     return (

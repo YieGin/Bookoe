@@ -9,7 +9,7 @@ interface ProductInfoProps {
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   return (
-    <div className='flex gap-x-5 items-center'>
+    <div className='flex xl:gap-x-5 xs:gap-x-2 items-center'>
       <ShippingDetail product={product} />
       <StockStatus inStock={product.in_stock} />
     </div>

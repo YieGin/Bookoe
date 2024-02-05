@@ -2,22 +2,26 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Product, fetchAllProducts } from '@/redux/features/productsSlice';
+import { Product, fetchAllProducts, fetchFavoriteProducts } from '@/redux/features/productsSlice';
 import Social from './Social';
-import { addToCart, removeFromCart } from '@/redux/features/cartSlice';
-import { addFavorite, fetchFavorites } from '@/redux/features/favoritesSlice';
+import { addToCart } from '@/redux/features/cartSlice';
+import { addFavorite } from '@/redux/features/favoritesSlice';
 import { fetchCartCount } from '@/redux/features/cartCountSlice';
 import { fetchFavoritesCount } from '@/redux/features/favoritesCountSlice';
 import ProductInteraction from './ProductInteraction';
 import ProductInfo from './ProductInfo';
 import ProductAuthorDetails from './ProductAuthorDetails';
 import ProductStats from './ProductStats';
+import { toast } from 'react-toastify';
 
 interface ProductDetailsSectionProps {
-    product: Product;
-  }
+  product: Product;
+  averageRating: Product | any;
+  reviews: Product | any;
+  ratingCount: Product | any;
+}
 
-const ProductHeroSection: React.FC<ProductDetailsSectionProps> = ({ product }) => {
+const ProductHeroSection: React.FC<ProductDetailsSectionProps> = ({ product, averageRating, reviews, ratingCount }) => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -32,7 +36,7 @@ const ProductHeroSection: React.FC<ProductDetailsSectionProps> = ({ product }) =
   useEffect(() => {
     dispatch(fetchAllProducts());
     if (auth.isAuthenticated) {
-      dispatch(fetchFavorites());
+      dispatch(fetchFavoriteProducts());
     }
   }, [dispatch, auth.isAuthenticated]);
 
@@ -41,7 +45,7 @@ const ProductHeroSection: React.FC<ProductDetailsSectionProps> = ({ product }) =
     setFavoriteIds(newFavoriteIds);
   }, [favorites]);
 
-  // cart sectioon
+  // cart section
   const handleIncrement = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
@@ -53,16 +57,16 @@ const ProductHeroSection: React.FC<ProductDetailsSectionProps> = ({ product }) =
     sessionStorage.setItem(`product_${productId}_quantity`, newQuantity.toString());
   };
   const handleAddToCart = () => {
-    dispatch(addToCart({ productId: product.id, quantity }))
+    if (!product.in_stock) {
+      toast.error('This product is out of stock and cannot be added to the cart.');
+      return;
+    }
+    dispatch(addToCart({ id: product.id, quantity }))
       .then(() => dispatch(fetchCartCount()));
   };
-  const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(product.id));
-    sessionStorage.setItem(`product_${productId}_quantity`, '1');
-    setQuantity(1);
-  };
+  
 
-  // favorite sectioon
+  // favorite section
   const handleAddFavorite = async (productId: number) => {
     if (isAdding) return;
     setIsAdding(true);
@@ -79,18 +83,18 @@ const ProductHeroSection: React.FC<ProductDetailsSectionProps> = ({ product }) =
 
   return (
     <div className='w-full'>
-      <h1 className='text-black font-bold text-[40px]'>{product.title}</h1>
-      <div className='flex justify-between items-center'>
-        <ProductStats product={product} />
+      <h1 className='text-black font-bold md:text-[40px] xs:text-[30px] dark:text-white xs:mt-3 lg:mt-0'>{product.title}</h1>
+      <div className='flex justify-between lg:items-center lg:flex-row xs:flex-col gap-y-2'>
+        <ProductStats averageRating={averageRating} reviews={reviews} ratingCount={ratingCount} product={product} />
         <Social />
       </div>
-      <p className='mr-5 text-[#757575] font-semibold text-[16px] font-sans mt-5'>{product.description}</p>
-      <div className='flex gap-x-14 mt-10 items-center justify-between'>
+      <p className='md:mr-5 text-[#757575] dark:text-[#D7D7D7] font-semibold md:text-[16px] xs:text-[12px] font-sans mt-5'>{product.description}</p>
+      <div className='flex lg:gap-x-14 mt-10 items-center justify-between md:flex-nowrap xs:flex-wrap'>
         <ProductAuthorDetails product={product} />
         <ProductInfo product={product} />
       </div>
-      <hr className="border-0 h-0 bg-transparent my-10" style={{ borderStyle: 'dotted', borderWidth: '2px', borderColor: '#ccc', borderSpacing: '44px' }} />
-      <ProductInteraction product={product} quantity={quantity} handleIncrement={handleIncrement} handleDecrement={handleDecrement} handleAddToCart={handleAddToCart} handleAddFavorite={handleAddFavorite} favoriteIds={favoriteIds} />
+      <hr className="border-0 h-0 bg-transparent md:my-10 xs:my-5" style={{ borderStyle: 'dotted', borderWidth: '2px', borderColor: '#ccc', borderSpacing: '44px' }} />
+      <ProductInteraction product={product} quantity={quantity} handleIncrement={handleIncrement} handleDecrement={handleDecrement} handleAddToCart={handleAddToCart} handleAddFavorite={handleAddFavorite} />
     </div>
   );
 };

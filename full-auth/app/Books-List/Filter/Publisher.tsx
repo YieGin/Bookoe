@@ -73,7 +73,7 @@ const Publisher = () => {
                             <div className='space-y-3 my-5'>
                                 {Array.from(uniquePublishers).map((publisher, index) => (
                                     <div className='flex ml-5 items-center gap-x-2' key={index}>
-                                        <p className={`font-Cairo cursor-pointer text-[16px] ${globalSelectedPublishers.includes(publisher) ? 'text-[#6C5DD3]' : 'text-[#11142D]'}`}
+                                        <p className={`font-Cairo cursor-pointer text-[16px] ${globalSelectedPublishers.includes(publisher) ? 'text-[#6C5DD3] dark:text-[#7381fc]' : 'text-[#11142D] dark:text-white'}`}
                                             onClick={() => handlePublisherSelect(publisher)}>
                                             {publisher}
                                         </p>
