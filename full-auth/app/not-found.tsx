@@ -5,8 +5,8 @@ import { FaHome } from 'react-icons/fa';
 const NotFoundPage = () => {
   return (
     <div className="h-screen flex flex-col justify-center items-center text-gray-800">
-      <h1 className="text-6xl font-bold">404</h1>
-      <p className="text-2xl md:text-3xl font-light mb-8">
+      <h1 className="text-white text-[32vw] mix-blend-difference slashed-zero font-bold font-neuemontrealcondensed leading-none">404</h1>
+      <p className="text-gray-200 font-neuemontreal text-4xl max-w-[30ch] text-center">
         Oops! The page you&apos;re looking for isn&apos;t here.
       </p>
       <Link href="/">
