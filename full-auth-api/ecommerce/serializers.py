@@ -47,13 +47,7 @@ class CartSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = settings.AUTH_USER_MODEL
-        fields = ['first_name', 'last_name', 'email']
-
-class CheckoutSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Checkout
-        fields = '__all__'
-        
+        fields = ['first_name', 'last_name', 'email']      
 
 class ReviewSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField()

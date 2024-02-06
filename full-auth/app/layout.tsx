@@ -7,8 +7,8 @@ import { Setup } from '@/components/utils'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Full Aut',
-  description: 'Full Auth application that provides jwt authentication',
+  title: 'Bookoe',
+  description: 'Bookoe Book Store Website',
 }
 
 export default function RootLayout({
@@ -19,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <link rel="icon" type="image/svg+xml" href="/svgs/Logo-dark.svg" />
         <Provider>
             <Setup />
             <Navbar />

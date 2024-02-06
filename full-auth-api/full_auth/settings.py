@@ -81,6 +81,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'full_auth.wsgi.application'
 
 SIMPLE_JWT = {

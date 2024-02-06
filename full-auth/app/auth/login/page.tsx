@@ -5,15 +5,15 @@ import Link from 'next/link'
 import React from 'react'
 
 export const metadata: Metadata = {
-  title: 'Full Auth | Login',
-  description: 'Full Auth login page'
+  title: 'Bookoe | Login',
+  description: 'Bookoe login page'
 }
 
 const Page = () => {
   
   return (
     <main className="flex justify-center items-center h-screen dark:bg-[#11161b]">
-      <div className="space-y-3 rounded-xl w-1/3 p-6 shadow-lg">
+      <div className="space-y-3 rounded-xl lg:w-1/3 p-6 shadow-lg">
         <h1 className="text-2xl font-bold text-center dark:text-white">Sign in to your account</h1>
         <>
           <LoginForm />

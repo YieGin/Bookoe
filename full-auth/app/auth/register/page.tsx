@@ -13,7 +13,7 @@ const Page = () => {
   
   return (
     <main className="flex justify-center items-center h-screen dark:bg-[#11161b]">
-      <div className="space-y-3 rounded-xl w-1/3 p-6 shadow-lg">
+      <div className="space-y-3 rounded-xl lg-md:w-1/3 p-6 shadow-lg">
         <h1 className="text-2xl font-bold text-center dark:text-white">Sign up</h1>
         <>
           <RegisterForm />
