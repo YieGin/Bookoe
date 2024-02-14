@@ -4,7 +4,7 @@ import "../../../styles/style.scss";
 
 interface CategoryLink {
   name: string;
-  href: string; // Add appropriate URL for each category and link
+  href: string;
 }
 
 const Categories: React.FC = () => {
@@ -25,12 +25,12 @@ const Categories: React.FC = () => {
 
   const quickLinks: CategoryLink[] = [
     { name: 'About us', href: '/about' },
-    { name: 'Contact us', href: '/contact' },
+    { name: 'Contact us', href: '/' },
     { name: 'Products', href: '/books-list' },
     { name: 'Login', href: '/auth/login' },
     { name: 'Sign Up', href: '/auth/register' },
-    { name: 'FAQ', href: '/faq' },
-    { name: 'Shipment', href: '/shipment' },
+    { name: 'FAQ', href: '/' },
+    { name: 'Shipment', href: '/' },
   ];
 
   const renderLinks = (links: CategoryLink[]) => (
