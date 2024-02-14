@@ -24,7 +24,7 @@ const Categories: React.FC = () => {
   ];
 
   const quickLinks: CategoryLink[] = [
-    { name: 'About us', href: '/about' },
+    { name: 'About us', href: '/' },
     { name: 'Contact us', href: '/' },
     { name: 'Products', href: '/books-list' },
     { name: 'Login', href: '/auth/login' },
