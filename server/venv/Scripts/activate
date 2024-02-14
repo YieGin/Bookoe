@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="E:\python\Django Curse\Bookoe\full-auth-api\venv"
+VIRTUAL_ENV="E:\python\Django Curse\Bookoe\server\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

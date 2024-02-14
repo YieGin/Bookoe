@@ -3,6 +3,13 @@ logs
 *.log
 npm-debug.log*
 
+# Environments
+.env.local
+.env
+env/
+ENV/
+env.bak/
+
 # Runtime data
 pids
 *.pid
@@ -14,12 +21,7 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
-# Environments
-.env.local
-.env
-env/
-ENV/
-env.bak/
+
 # nyc test coverage
 .nyc_output
 
