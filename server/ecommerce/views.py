@@ -25,7 +25,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 class ProductListCreateView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
@@ -81,7 +81,7 @@ class ProductListCreateView(generics.ListCreateAPIView):
         return queryset
 
     def post(self, request, *args, **kwargs):
-        self.permission_classes = [permissions.IsAuthenticated]
+        self.permission_classes = [permissions.AllowAny]
         return super().post(request, *args, **kwargs)
 
 
@@ -157,7 +157,7 @@ class RelatedBooksView(generics.ListAPIView):
 class ReviewCreateView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -180,7 +180,7 @@ class ProductReviewListView(generics.ListAPIView):
 # CartListView
 class CartListView(generics.ListAPIView):
     serializer_class = CartSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         user = self.request.user
@@ -202,7 +202,7 @@ class ProductSearchView(ListAPIView):
     
 # add_to_cart
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def add_to_cart(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
@@ -214,7 +214,7 @@ def add_to_cart(request, product_id):
 
 # update_cart_item
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def update_cart_item(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
@@ -228,7 +228,7 @@ def update_cart_item(request, product_id):
 
 # remove_from_cart
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def remove_from_cart(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
@@ -240,7 +240,7 @@ def remove_from_cart(request, product_id):
 
 # cart_count
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def cart_count(request):
     count = Cart.objects.filter(user=request.user).count()
     return Response({'count': count})
@@ -248,14 +248,14 @@ def cart_count(request):
 
 # favorite_count
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def favorite_count(request):
     count = Favorite.objects.filter(user=request.user).count()
     return Response({'count': count})
 
 # list_favorites
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def list_favorites(request):
     favorites = Favorite.objects.filter(user=request.user).prefetch_related('product').values_list('product', flat=True)
     products = Product.objects.filter(id__in=favorites)
@@ -264,7 +264,7 @@ def list_favorites(request):
 
 # add_to_favorites
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def add_to_favorites(request, product_id):
     """View to add a product to the user's favorites."""
     user = request.user
@@ -278,7 +278,7 @@ def add_to_favorites(request, product_id):
     
 # remove_from_favorites
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def remove_from_favorites(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
@@ -287,7 +287,7 @@ def remove_from_favorites(request, product_id):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def create_checkout_session(request):
     user = request.user
     try:
@@ -343,7 +343,7 @@ def create_checkout_session(request):
         return Response({'error': str(e)}, status=400)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def get_checkout_data(request):
     user = request.user
     try:
