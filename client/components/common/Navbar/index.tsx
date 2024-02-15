@@ -6,7 +6,6 @@ import { useLogoutMutation } from '@/redux/features/authApiSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from "@/redux/store";
 import AuthLinks from './AuthLinks';
-import GuestLinks from './GuestLinks';
 import SearchBar from './SearchBar';
 import LogoDisplay from './LogoDisplay';
 import ThemeToggle from './ThemeToggle';
@@ -16,7 +15,6 @@ import HamburgerMenu from './HamburgerMenu';
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const theme = useSelector((state: RootState) => state.themeMenu.theme);
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -63,7 +61,7 @@ const Navbar: React.FC = () => {
         </div>
         <div className="gap-x-5 flex h-full">
           <div className='md:flex xs:hidden'>
-            {isAuthenticated ? <AuthLinks logout={logout} /> : <GuestLinks />}
+            <AuthLinks logout={logout} />
           </div>
           <ThemeToggle />
           <HamburgerMenu />

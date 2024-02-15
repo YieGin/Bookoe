@@ -8,6 +8,7 @@ import { logout as setLogout } from '@/redux/features/authSlice';
 import { fetchFavoritesCount } from '@/redux/features/favoritesCountSlice';
 import { IoPersonOutline } from 'react-icons/io5';
 import { fetchCartCount } from '@/redux/features/cartCountSlice';
+import GuestLinks from './GuestLinks';
 
 interface AuthLinksProps {
   logout: (arg?: any) => Promise<any>;
@@ -69,6 +70,7 @@ const AuthLinks: FC<AuthLinksProps> = ({ logout }) => {
         Logout
       </span>
     </div>
+    <GuestLinks />
   </div>
   
   );
