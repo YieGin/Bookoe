@@ -214,14 +214,18 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'
 }
 
-CORS_ALLOWED_ORIGINS = getenv(
-    'CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000, http://127.0.0.1:3000'
-).split(',')
+CORS_ALLOWED_ORIGINS = 'https://bookoe-jade.vercel.app'
 CORS_ALLOWED_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = default_headers + (
+    'Access-Control-Allow-Origin',
+)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
