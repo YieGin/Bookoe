@@ -9,17 +9,11 @@ import { LuHeartOff } from 'react-icons/lu';
 const Favorites = () => {
   const dispatch = useAppDispatch();
   const favoriteProducts = useAppSelector((state) => state.products.favoriteProducts);
-  const error = useAppSelector((state) => state.products.error);
 
   useEffect(() => {
     dispatch(fetchFavoriteProducts());
   }, [dispatch]);
 
-  if (error) {
-    return <div>Please go to home page and refresh the page.</div>;
-  }
-
-  // Check if favoriteProducts is empty
   if (favoriteProducts.length === 0) {
     return (
       <div className='h-screen flex flex-col items-center justify-center xs:px-5 dark:bg-[#11161b]'>
