@@ -6,6 +6,8 @@ import dj_database_url
 import sys
 from datetime import timedelta
 import os
+import secrets
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,12 +26,19 @@ STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = getenv('DJANGO_SECRET_KEY', get_random_secret_key())
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    default=secrets.token_urlsafe(nbytes=64),
+)
+IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('DEBUG', 'FALSE') == 'True'
+if IS_HEROKU_APP:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = []
 
-ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
@@ -38,6 +47,7 @@ STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    "whitenoise.runserver_nostatic",
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -54,6 +64,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -92,18 +103,20 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-if DEVELOPMENT_MODE is True:
+if IS_HEROKU_APP:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        "default": dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        ),
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if getenv("DATABASE_URL", None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
+else:
     DATABASES = {
-        "default": dj_database_url.parse(getenv("DATABASE_URL")),
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
 
 # EMAIL SETTINGS
@@ -152,30 +165,19 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-if DEVELOPMENT_MODE is True:
-    STATIC_URL = 'static/'
-    STATIC_ROOT = BASE_DIR / 'static'
-    MEDIA_URL = 'media/'
-    MEDIA_ROOT = BASE_DIR / 'media'
-else:
-    AWS_S3_ACCESS_KEY_ID = getenv('AWS_S3_ACCESS_KEY_ID')
-    AWS_S3_SECRET_ACCESS_KEY = getenv('AWS_S3_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = getenv('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = getenv('AWS_S3_REGION_NAME')
-    AWS_S3_ENDPOINT_URL = f'https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com'
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400'
-    }
-    AWS_DEFAULT_ACL = 'public-read'
-    AWS_LOCATION = 'static'
-    AWS_S3_CUSTOM_DOMAIN = getenv('AWS_S3_CUSTOM_DOMAIN')
-    STORAGES = {
-    "default": { "BACKEND": "storages.backends.s3.S3Storage"},
-    "staticfiles":{ "BACKEND": "storages.backends.s3.S3Storage"},
-}
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "static/"
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
     
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+WHITENOISE_KEEP_ONLY_HASHED_FILES = True
+
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
