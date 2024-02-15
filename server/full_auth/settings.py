@@ -6,7 +6,7 @@ import sys
 from datetime import timedelta
 import os
 import secrets
-import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,10 +33,7 @@ IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('DEBUG', 'FALSE') == 'True'
-if IS_HEROKU_APP:
-    ALLOWED_HOSTS = ["*"]
-else:
-    ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
@@ -99,15 +96,15 @@ SIMPLE_JWT = {
 }
 
 DATABASES = {
-    "default": dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    ),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "d1i7h9kmcpr093",
+        "USER": "txbrkjqlisbvby",
+        "PASSWORD": "056b4a72dc7c8b71bead25790a808593c0f817adeafee5e1947441a59ecb3256",
+        "HOST": "ec2-34-251-233-253.eu-west-1.compute.amazonaws.com",
+        "PORT": "5432",
+    }
 }
-
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
