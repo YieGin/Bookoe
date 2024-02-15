@@ -99,11 +99,15 @@ SIMPLE_JWT = {
 }
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
+    ),
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
@@ -154,7 +158,7 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
     
 STORAGES = {
     "staticfiles": {
