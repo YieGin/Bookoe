@@ -23,7 +23,7 @@ export const addFavorite = createAsyncThunk(
   'favorites/addFavorite',
   async (productId: number, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/add-to-favorites/${productId}/`, {}, {
+      const response = await axios.post(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/add-to-favorites/${productId}/`, {}, {
         withCredentials: true,
       });
       toast.success('Product added to favorites!');
@@ -49,7 +49,7 @@ export const fetchFavorites = createAsyncThunk(
       return rejectWithValue('User not authenticated');
     }
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/favorites/`, {
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/favorites/`, {
         withCredentials: true,
       });
       // The backend is expected to return an array of product IDs directly.
@@ -65,7 +65,7 @@ export const removeFromFavorite = createAsyncThunk(
   'favorites/removeFromFavorite',
   async (productId: number, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/remove-from-favorites/${productId}/`, {
+      const response = await axios.delete(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/remove-from-favorites/${productId}/`, {
         withCredentials: true,
       });
       return productId;  // Return the ID of the product that was removed

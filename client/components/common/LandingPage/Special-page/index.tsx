@@ -51,7 +51,7 @@ const SpecialOfferItem: React.FC<{ item: any; index: number }> = ({ item, index 
     variants={variants}
     className='flex flex-col rounded-[14px] lg-md:w-[35%]'
   >
-   <img onClick={() => navigateToProductPage(item.id)} className='h-[350px] object-cover rounded-[14px] relative top-5 cursor-pointer' src={`${process.env.NEXT_PUBLIC_HOST}${item.image}`} alt={item.image} />
+   <img onClick={() => navigateToProductPage(item.id)} className='h-[350px] object-cover rounded-[14px] relative top-5 cursor-pointer' src={`https://bookoegin-d820f894692b.herokuapp.com/${item.image}`} alt={item.image} />
       <div className='border-2 dark:border-[#313131] pb-10 px-5 font-Cairo rounded-[14px]'>
         <h1 className='md:mt-10 xs:mt-6 font-bold md:text-[24px] xs:text-[20px] text-[#11142D] dark:text-[#F0F0F0]'>{item.title}</h1>
         <div className='flex flex-wrap md:gap-2 xs:gap-1 md:my-5 xs:my-3'>

@@ -24,7 +24,7 @@ export const fetchFavoritesCount = createAsyncThunk<number, void, { state: RootS
     }
 
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/favorites-count/`, {
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/favorites-count/`, {
         withCredentials: true,
       });
       return response.data.count;

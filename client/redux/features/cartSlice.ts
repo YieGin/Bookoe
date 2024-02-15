@@ -47,7 +47,7 @@ export const fetchCartItems = createAsyncThunk(
   'cart/fetchCartItems',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/cart/`, {
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/cart/`, {
         withCredentials: true,
       });
       return response.data;
@@ -61,7 +61,7 @@ export const addToCart = createAsyncThunk(
   'cart/addToCart',
   async ({ id, quantity }: { id: number, quantity: number }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/add-to-cart/${id}/`, { quantity }, {
+      const response = await axios.post(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/add-to-cart/${id}/`, { quantity }, {
         withCredentials: true,
       });
       toast.success('Product added to cart!');
@@ -81,7 +81,7 @@ export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
   async (id: number, { rejectWithValue }) => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/remove-from-cart/${id}/`, {
+      await axios.delete(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/remove-from-cart/${id}/`, {
         withCredentials: true,
       });
       toast.success('Product removed from cart!');
@@ -97,7 +97,7 @@ export const initiateCheckout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/create-checkout-session/`,
+        `https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/create-checkout-session/`,
         {},  // Empty body or relevant data
         { withCredentials: true }
       );
@@ -119,7 +119,7 @@ export const fetchCheckoutData = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     const state = getState() as RootState;
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/get-checkout-data/`, {
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/get-checkout-data/`, {
         withCredentials: true,
       });
       return response.data as CheckoutData;
@@ -133,7 +133,7 @@ export const updateCartItemQuantity = createAsyncThunk(
   'cart/updateCartItemQuantity',
   async ({ id, quantity }: { id: number; quantity: number }, { rejectWithValue }) => {
     try {
-      await axios.put(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/update-cart-item/${id}/`, { quantity }, {
+      await axios.put(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/update-cart-item/${id}/`, { quantity }, {
         withCredentials: true,
       });
       toast.success('The item quantity has been successfully updated.');

@@ -24,7 +24,7 @@ export const fetchCartCount = createAsyncThunk<number, void, { state: RootState 
     }
 
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/cart-count/`, {
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/cart-count/`, {
         withCredentials: true,
       });
       return response.data.count;

@@ -5,7 +5,7 @@ import { Mutex } from 'async-mutex';
 
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({ 
-    baseUrl: `${process.env.NEXT_PUBLIC_HOST}/api`,
+    baseUrl: `https://bookoegin-d820f894692b.herokuapp.com/api`,
     credentials: 'include',
 });
 

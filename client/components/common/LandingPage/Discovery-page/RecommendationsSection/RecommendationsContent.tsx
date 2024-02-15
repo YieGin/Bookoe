@@ -44,7 +44,7 @@ const ProductItem: React.FC<{ product: Product; index: number }> = ({ product, i
       variants={variants}
       className="md:min-w-[140px] xs:h-[150px] md:h-[250px] cursor-pointer shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out"
     >
-      <img src={`${process.env.NEXT_PUBLIC_HOST}${product.image}`} alt={product.title} className="w-full h-full object-cover hover:scale-105 lg:brightness-100 hover:brightness-105 transition-all duration-300 ease-in-out" />
+      <img src={`https://bookoegin-d820f894692b.herokuapp.com/${product.image}`} alt={product.title} className="w-full h-full object-cover hover:scale-105 lg:brightness-100 hover:brightness-105 transition-all duration-300 ease-in-out" />
     </motion.div>
   );
 };

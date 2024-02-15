@@ -98,7 +98,7 @@ const Cart = () => {
           <div className='flex flex-col xs:px-2 md:px-10 gap-y-5'>
             {cartItems.map((item: Product) => (
               <div className='border-b-[1px] dark:border-[#5a5a5a] pb-10 flex xs:w-full sm:w-[100%] md:w-[700px] lg-md:w-[800px]' key={item.id}>
-                <img onClick={() => navigateToProductPage(item.id)} className='border-2 p-1 dark:border-[#5a5a5a] dark:border-[1px] md:w-40 md:h-52 xs:w-28 xs:h-36 rounded-[14px] object-cover md:mr-3 xs:mr-2 cursor-pointer' src={`${process.env.NEXT_PUBLIC_HOST}${item.image}`} alt={item.title} />
+                <img onClick={() => navigateToProductPage(item.id)} className='border-2 p-1 dark:border-[#5a5a5a] dark:border-[1px] md:w-40 md:h-52 xs:w-28 xs:h-36 rounded-[14px] object-cover md:mr-3 xs:mr-2 cursor-pointer' src={`https://bookoegin-d820f894692b.herokuapp.com/${item.image}`} alt={item.title} />
                 <div className='w-full'>
                   <div className='flex justify-between w-full h-max items-center md:mb-5 xs:mb-2'>
                     <p className='font-bold md:text-[20px] text-[#11142D] dark:text-[#FFF]'>{item.title}</p>

@@ -82,7 +82,7 @@ export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/all-products/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/all-products/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching all products');
@@ -96,7 +96,7 @@ export const fetchProductsBySearchTerm = createAsyncThunk(
   async (searchTerm: string, { rejectWithValue }) => {
     try {
       // Update the URL to match your backend's search endpoint
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/search-products/?search=${searchTerm}`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/search-products/?search=${searchTerm}`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error during product search');
@@ -110,7 +110,7 @@ export const fetchProducts = createAsyncThunk(
   async (page: number, { rejectWithValue }) => {
     try {
       // Adjust the URL according to your API
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/products/?page=${page}`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/products/?page=${page}`);
       
       // Adjust this according to your API's response structure
       if (response.data && response.data.results) {
@@ -130,7 +130,7 @@ export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
   async (productId: number, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/products/${productId}/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/products/${productId}/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching product by ID');
@@ -143,7 +143,7 @@ export const fetchBestSellers = createAsyncThunk(
   'products/fetchTopBestSellers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/best-sellers/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/best-sellers/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching top best sellers');
@@ -156,7 +156,7 @@ export const fetchSpecialOffers = createAsyncThunk(
   'products/fetchSpecialOffers',
   async (_, { rejectWithValue }) => {
       try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/special-offers/`);
+          const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/special-offers/`);
           return response.data;
       } catch (error) {
           return rejectWithValue('Error fetching top Special Offer');
@@ -169,7 +169,7 @@ export const fetchRecommendedProducts = createAsyncThunk(
   'products/fetchRecommendedProducts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/recommended-products/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/recommended-products/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching recommended products');
@@ -183,7 +183,7 @@ export const fetchNews = createAsyncThunk(
   'products/fetchNews',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/news/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/news/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching news');
@@ -196,7 +196,7 @@ export const fetchNewestBooks = createAsyncThunk(
   'products/fetchNewestBooks',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/newest-books/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/newest-books/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching newest books');
@@ -210,7 +210,7 @@ export const fetchFiveStarProducts = createAsyncThunk(
   'products/fetchFiveStarProducts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/five-star-products/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/five-star-products/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching 5-star products');
@@ -223,7 +223,7 @@ export const fetchRelatedBooks = createAsyncThunk(
   'products/fetchRelatedBooks',
   async (bookId: number, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/related-books/${bookId}/`);
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/related-books/${bookId}/`);
       return response.data;
     } catch (error) {
       return rejectWithValue('Error fetching related books');
@@ -236,7 +236,7 @@ export const fetchFavoriteProducts = createAsyncThunk(
   'products/fetchFavoriteProducts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/ecommerce/favorites/`, {
+      const response = await axios.get(`https://bookoegin-d820f894692b.herokuapp.com/api/ecommerce/favorites/`, {
         withCredentials: true
       });
       return response.data;

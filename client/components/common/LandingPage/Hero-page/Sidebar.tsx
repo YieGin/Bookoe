@@ -51,7 +51,7 @@ const Sidebar = () => {
           <div onClick={() => navigateToProductPage(currentBestSeller.id)} className="w-[200px] h-[300px] border-4 cursor-pointer border-white mt-5 shadow-white rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 ease-in-out">
             <img 
               className="w-full h-full object-cover hover:scale-105 transition-all duration-300 ease-in-out"
-              src={`${process.env.NEXT_PUBLIC_HOST}${currentBestSeller.image}`}
+              src={`https://bookoegin-d820f894692b.herokuapp.com/${currentBestSeller.image}`}
               alt={currentBestSeller.title}
             />
           </div>
